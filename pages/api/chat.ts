@@ -10,8 +10,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { question, history } = req.body;
-
+  const {question, history } = req.body;
+  const defaultPrompt = "你是一名文化旅游店铺导购方面的专家，擅长用生动简洁的语言给人们推荐美食，旅游景点。推荐的时候尽量给出具体的店铺名称及相应评价。如果上下文中包含JSON格式，那么里面的条目代表上海长泰广场的店铺，条目之间相互独立。其中name的值代表店铺名称，avgPrice的值对象中，人均后面的数字代表人均消费，recommend的值代表该店铺的推荐菜的列表，address的值代表店铺地址，tel的值代表店铺电话，comment的值代表用户评价。请优先从以下上下文中寻找到答案";
+  let {prompt} = req.body;
+  console.log('prompt', prompt);
   console.log('question', question);
   console.log('history', history);
 
@@ -19,6 +21,10 @@ export default async function handler(
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
+  }
+
+  if (!prompt) {
+    prompt = defaultPrompt;
   }
 
   if (!question) {
@@ -41,7 +47,7 @@ export default async function handler(
     );
 
     //create chain
-    const chain = makeChain(vectorStore);
+    const chain = makeChain(vectorStore, prompt);
 
     const pastMessages = history.map((message: string, i: number) => {
       if (i % 2 === 0) {

@@ -28,7 +28,7 @@ export const run = async () => {
 
     /* Split text into chunks */
     const textSplitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 1000,
+      chunkSize: 8000,
       chunkOverlap: 100,
     });
 
@@ -41,7 +41,7 @@ export const run = async () => {
     const index = pinecone.Index(PINECONE_INDEX_NAME); //change to your own index name
 
 
-    const model = new OpenAI({ modelName: 'gpt-3.5-turbo-16k', temperature: 0 ,maxTokens: 2048});
+    const model = new OpenAI({ modelName: 'gpt-3.5-turbo-16k', temperature: 0 });
 
     // This convenience function creates a document chain prompted to summarize a set of documents.
     const chain = loadSummarizationChain(model, {

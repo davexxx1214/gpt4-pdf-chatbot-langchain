@@ -12,6 +12,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import MultipleFileUploadForm from "@/components/ui//MultipleFileUploadForm";
 
 export default function Home() {
   const [query, setQuery] = useState<string>('');
@@ -139,6 +140,20 @@ export default function Home() {
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Chat With Your Docs
           </h1>
+
+          <main className="py-10">
+            <div className="w-full max-w-3xl px-3 mx-auto">
+              <div className="space-y-10">
+                <div>
+                  <h2 className="mb-3 text-xl font-bold text-gray-900">
+                     File Upload
+                  </h2>
+                  <MultipleFileUploadForm />
+                </div>
+              </div>
+            </div>
+          </main>
+
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>

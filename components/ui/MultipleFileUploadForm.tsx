@@ -4,11 +4,43 @@ const MultipleFileUploadForm = () => {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [processfiles, setProcessFiles] = useState<File[]>([]);
 
-  const onProcess = () => {
+  const onProcess = async () => {
     if (processfiles.length > 0) {
-      console.log("processing");
-    }
 
+      /** Uploading files to the server */
+      try {
+        var formData = new FormData();
+        processfiles.forEach((file) => formData.append("media", file));
+
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const {
+          data,
+          error,
+        }: {
+          data: {
+            url: string | string[];
+          } | null;
+          error: string | null;
+        } = await res.json();
+
+        if (error || !data) {
+          alert(error || "Sorry! something went wrong.");
+          return;
+        }
+
+        console.log("Files were uploaded successfylly:", data);
+      } catch (error) {
+        console.error(error);
+        alert("Sorry! something went wrong.");
+      }finally{
+        setPreviewUrls([]);
+        setProcessFiles([]);
+      }
+    }
   }
 
   const onFilesUploadChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +78,11 @@ const MultipleFileUploadForm = () => {
       validFiles.map((validFile) => validFile.name)
     );
     setProcessFiles(validFiles);
+
+    /** Reset file input */
+    fileInput.type = "text";
+    fileInput.type = "file";
+
   };
 
   return (

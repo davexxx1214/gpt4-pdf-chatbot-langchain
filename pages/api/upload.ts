@@ -1,5 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { parseForm, FormidableError } from "../lib/parse-form";
+import {run} from "../../scripts/ingest-data";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { join } from "path";
+
 
 const handler = async (
   req: NextApiRequest,
@@ -20,10 +25,21 @@ const handler = async (
   }
   // Just after the "Method Not Allowed" code
   try {
-    const { files } = await parseForm(req);
+    const { files} = await parseForm(req);
 
     const file = files.media;
     let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
+
+    const uploadDir = join(
+      process.env.ROOT_DIR || process.cwd(),
+      `/docs/tmp`
+    );
+
+    console.log('parsing dir = ' + uploadDir);
+    await run(uploadDir);
+
+    console.log('removing tmp files from : ', uploadDir);
+    fs.rmSync(path.dirname(uploadDir), { recursive: true, force: true });
 
     res.status(200).json({
       data: {

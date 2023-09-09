@@ -26,7 +26,7 @@ import { Document } from "langchain/document";
 const filePath = 'docs';
 
 
-export const run = async () => {
+export const run = async (filePath : string) => {
   try {
     /*load raw docs from the all files in the directory */
       const directoryLoader = new DirectoryLoader(filePath, {
@@ -40,7 +40,7 @@ export const run = async () => {
       });
       const rawDocs = await directoryLoader.load();
   
-      processDocs(rawDocs);
+      await processDocs(rawDocs);
 
   } catch (error) {
     console.log('error', error);
@@ -105,6 +105,9 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[]) => {
       namespace: PINECONE_NAME_SPACE,
       textKey: 'text',
     });
+
+    console.log('process complete');
+
   } catch (error) {
     console.log('error', error);
     throw new Error('Failed to ingest your data');
@@ -112,6 +115,6 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[]) => {
 }
 
 (async () => {
-  await run();
+  await run(filePath);
   console.log('ingestion complete');
 })();

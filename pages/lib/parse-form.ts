@@ -1,7 +1,6 @@
 import type { NextApiRequest } from "next";
 import mime from "mime";
 import { join } from "path";
-import * as dateFn from "date-fns";
 import formidable from "formidable";
 import { mkdir, stat } from "fs/promises";
 
@@ -13,7 +12,7 @@ export const parseForm = async (
   return await new Promise(async (resolve, reject) => {
     const uploadDir = join(
       process.env.ROOT_DIR || process.cwd(),
-      `/docs/${dateFn.format(Date.now(), "dd-MM-Y")}`
+      `/docs/tmp`
     );
     console.log('upload dir =' + uploadDir);
 
@@ -43,7 +42,7 @@ export const parseForm = async (
 
     form.parse(req, function (err, fields, files) {
       if (err) reject(err);
-      else resolve({ fields, files });
+      else resolve({ fields, files});
     });
   });
 };

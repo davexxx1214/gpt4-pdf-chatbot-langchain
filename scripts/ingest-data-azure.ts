@@ -10,6 +10,11 @@ import { OpenAI } from "langchain/llms/openai";
 import { loadSummarizationChain } from "langchain/chains";
 import { Document } from "langchain/document";
 
+
+import { BlobServiceClient } from "@azure/storage-blob";
+import * as fs from "node:fs";
+import * as path from "node:path";
+
 // import {
 //   JSONLoader,
 //   JSONLinesLoader,
@@ -23,13 +28,35 @@ import { Document } from "langchain/document";
 /* Name of directory to retrieve your files from 
    Make sure to add your PDF files inside the 'docs' folder
 */
-const filePath = 'docs';
-
+const filePath = 'docs/';
+const connectionString: string = process.env['AZURE_CONNECTION_STRING'] || '';
+const container: string = process.env['AZURE_CONTAINER'] || '';
 
 export const run = async () => {
   try {
     /*load raw docs from the all files in the directory */
-      const directoryLoader = new DirectoryLoader(filePath, {
+    
+    const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+    const containerClient = blobServiceClient.getContainerClient(container);
+
+
+    if(!fs.existsSync(filePath))
+      fs.mkdirSync(filePath);
+    
+    const tempDir = fs.mkdtempSync(path.join(filePath, "azureblobfileloader"));
+
+    try {
+
+      for await (const blob of containerClient.listBlobsFlat()) {
+        let tmpFilePath = path.join(tempDir, blob.name);
+        const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+        const containerClient = blobServiceClient.getContainerClient(container);
+        const blobClient = containerClient.getBlobClient(blob.name);
+        fs.mkdirSync(path.dirname(tmpFilePath), { recursive: true });
+        await blobClient.downloadToFile(tmpFilePath);
+      }
+
+      const directoryLoader = new DirectoryLoader(tempDir, {
         '.pdf': (path) => new PDFLoader(path),
         // '.docx': (path) => new DocxLoader(path),
         // '.json': (path) => new JSONLoader(path, "/texts"),
@@ -42,12 +69,18 @@ export const run = async () => {
   
       processDocs(rawDocs);
 
+    } catch (e) {
+      throw new Error(`Failed to download file from Azure Blob Storage container ${container}: ${e}`);
+    } finally {
+      console.log('removing tmp files from : ', tempDir);
+      fs.rmSync(path.dirname(tempDir), { recursive: true, force: true });
+    }
+
   } catch (error) {
     console.log('error', error);
     throw new Error('Failed to ingest your data');
   }
 };
-
 
 const processDocs = async (rawDocs: Document<Record<string, any>>[]) => {
   try {
@@ -96,6 +129,7 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[]) => {
       deleteAll: true,
       namespace: PINECONE_NAME_SPACE
     });
+
 
     console.log("updating vector store...");
 

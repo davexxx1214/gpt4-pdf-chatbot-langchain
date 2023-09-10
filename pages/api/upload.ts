@@ -25,10 +25,11 @@ const handler = async (
   }
   // Just after the "Method Not Allowed" code
   try {
-    const { files} = await parseForm(req);
+    const { files, fields} = await parseForm(req);
 
     const file = files.media;
     let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
+    let cleanDB = (Boolean)(fields.cleanDB);
 
     const uploadDir = join(
       process.env.ROOT_DIR || process.cwd(),
@@ -36,7 +37,7 @@ const handler = async (
     );
 
     console.log('parsing dir = ' + uploadDir);
-    await run(uploadDir);
+    await run(uploadDir, cleanDB, false);
 
     console.log('removing tmp files from : ', uploadDir);
     fs.rmSync(path.dirname(uploadDir), { recursive: true, force: true });

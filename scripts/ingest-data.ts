@@ -26,21 +26,21 @@ import { Document } from "langchain/document";
 const filePath = 'docs';
 
 
-export const run = async (filePath : string) => {
+export const run = async (filePath: string, cleanDB: boolean, summarize: boolean) => {
   try {
     /*load raw docs from the all files in the directory */
-      const directoryLoader = new DirectoryLoader(filePath, {
-        '.pdf': (path) => new PDFLoader(path),
-        // '.docx': (path) => new DocxLoader(path),
-        // '.json': (path) => new JSONLoader(path, "/texts"),
-        // '.jsonl': (path) => new JSONLinesLoader(path, "/html"),
-        // '.txt': (path) => new TextLoader(path),
-        // '.csv': (path) => new CSVLoader(path, "text")
-        // '.html': (path) => new UnstructuredHTMLLoader(path),
-      });
-      const rawDocs = await directoryLoader.load();
-  
-      await processDocs(rawDocs);
+    const directoryLoader = new DirectoryLoader(filePath, {
+      '.pdf': (path) => new PDFLoader(path),
+      // '.docx': (path) => new DocxLoader(path),
+      // '.json': (path) => new JSONLoader(path, "/texts"),
+      // '.jsonl': (path) => new JSONLinesLoader(path, "/html"),
+      // '.txt': (path) => new TextLoader(path),
+      // '.csv': (path) => new CSVLoader(path, "text")
+      // '.html': (path) => new UnstructuredHTMLLoader(path),
+    });
+    const rawDocs = await directoryLoader.load();
+
+    await processDocs(rawDocs, cleanDB, summarize);
 
   } catch (error) {
     console.log('error', error);
@@ -49,13 +49,8 @@ export const run = async (filePath : string) => {
 };
 
 
-const processDocs = async (rawDocs: Document<Record<string, any>>[]) => {
+const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: boolean, summarize: boolean) => {
   try {
-
-    /* Split text into chunks */
-    const textSplitterSummary = new RecursiveCharacterTextSplitter({
-      chunkSize: 8000
-    });
 
     const textSplitter = new RecursiveCharacterTextSplitter({
       chunkSize: 1000,
@@ -65,7 +60,6 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[]) => {
     console.log('rawDocs', rawDocs);
 
     console.log('text splittering...');
-    const summary_docs = await textSplitterSummary.splitDocuments(rawDocs);
     const docs = await textSplitter.splitDocuments(rawDocs);
     // console.log('split docs', docs);
 
@@ -80,22 +74,33 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[]) => {
       type: "map_reduce",
       returnIntermediateSteps: true,
     });
-    const res = await chain.call({
-      input_documents: summary_docs,
-    });
-
-    const summary_content = "The summary of the document(file) is: " + res.text as string;
-    console.log(summary_content);
-    const summary = new Document({ pageContent: summary_content });
-    docs.push(summary);
 
 
-    console.log('deleting old vector index...')
-    // Delete all vectors in namespace
-    await index.delete1({
-      deleteAll: true,
-      namespace: PINECONE_NAME_SPACE
-    });
+    if (summarize) {
+      /* Split text into chunks */
+      const textSplitterSummary = new RecursiveCharacterTextSplitter({
+        chunkSize: 8000
+      });
+      const summary_docs = await textSplitterSummary.splitDocuments(rawDocs);
+      const res = await chain.call({
+        input_documents: summary_docs,
+      });
+
+      const summary_content = "The summary of the document(file) is: " + res.text as string;
+      console.log(summary_content);
+      const summary = new Document({ pageContent: summary_content });
+      docs.push(summary);
+    }
+
+
+    if (cleanDB) {
+      console.log('deleting old vector index...')
+      // Delete all vectors in namespace
+      await index.delete1({
+        deleteAll: true,
+        namespace: PINECONE_NAME_SPACE
+      });
+    }
 
     console.log("updating vector store...");
 
@@ -115,6 +120,6 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[]) => {
 }
 
 (async () => {
-  await run(filePath);
+  await run(filePath, true, false);
   console.log('ingestion complete');
 })();

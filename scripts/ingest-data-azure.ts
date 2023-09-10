@@ -32,7 +32,7 @@ const filePath = 'docs/';
 const connectionString: string = process.env['AZURE_CONNECTION_STRING'] || '';
 const container: string = process.env['AZURE_CONTAINER'] || '';
 
-export const run = async () => {
+export const run = async (cleanDB: boolean, summarize: boolean) => {
   try {
     /*load raw docs from the all files in the directory */
     
@@ -67,7 +67,7 @@ export const run = async () => {
       });
       const rawDocs = await directoryLoader.load();
   
-      processDocs(rawDocs);
+      processDocs(rawDocs, cleanDB, summarize);
 
     } catch (e) {
       throw new Error(`Failed to download file from Azure Blob Storage container ${container}: ${e}`);
@@ -82,7 +82,7 @@ export const run = async () => {
   }
 };
 
-const processDocs = async (rawDocs: Document<Record<string, any>>[]) => {
+const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: boolean, summarize: boolean) => {
   try {
 
     /* Split text into chunks */
@@ -146,6 +146,6 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[]) => {
 }
 
 (async () => {
-  await run();
+  await run(true, false);
   console.log('ingestion complete');
 })();

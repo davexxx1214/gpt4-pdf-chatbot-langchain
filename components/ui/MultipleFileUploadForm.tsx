@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from "react";
 const MultipleFileUploadForm = () => {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [processfiles, setProcessFiles] = useState<File[]>([]);
+  const [cleanDB, setCleanDB] = useState<boolean>(false);
 
   const onProcess = async () => {
     if (processfiles.length > 0) {
@@ -11,8 +12,9 @@ const MultipleFileUploadForm = () => {
       try {
         var formData = new FormData();
         processfiles.forEach((file) => formData.append("media", file));
-
-        const res = await fetch("/api/upload", {
+        formData.set("cleanDB", cleanDB.toString());
+        console.log("onProcess , cleanDB = " + cleanDB.toString());
+        const res = await fetch("/api/upload/", {
           method: "POST",
           body: formData,
         });
@@ -85,6 +87,12 @@ const MultipleFileUploadForm = () => {
 
   };
 
+  const handleChange = (e: { target: { checked: any; }; })=> {
+    const {checked} = e.target;
+    setCleanDB(checked);
+  } 
+
+
   return (
     <form
       className="w-full p-3 border border-gray-500 border-dashed"
@@ -146,6 +154,17 @@ const MultipleFileUploadForm = () => {
             Upload file
           </button>
         </div>
+      </div>
+
+      
+      <div className="call">
+        <input
+          type="checkbox"
+          name="checkall"
+          checked={cleanDB}
+          onChange={handleChange}
+        />
+        <label htmlFor="checkall">Clean Vector Database</label>
       </div>
     </form>
   );

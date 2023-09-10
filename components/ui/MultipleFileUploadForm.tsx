@@ -1,20 +1,23 @@
 import { ChangeEvent, useState } from "react";
+import { toast ,ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const MultipleFileUploadForm = () => {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [processfiles, setProcessFiles] = useState<File[]>([]);
-  const [cleanDB, setCleanDB] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
 
   const onProcess = async () => {
     if (processfiles.length > 0) {
+      toast('Upload started.', { hideProgressBar: true, autoClose: 2000, type: 'success' ,position:'top-center' });
+
       setUploading(true);
       /** Uploading files to the server */
       try {
         var formData = new FormData();
         processfiles.forEach((file) => formData.append("media", file));
-        formData.set("cleanDB", cleanDB.toString());
-        console.log("onProcess , cleanDB = " + cleanDB.toString());
+        formData.append("_cleanDB", globalThis._cleanDB.toString()); 
         const res = await fetch("/api/upload/", {
           method: "POST",
           body: formData,
@@ -36,6 +39,8 @@ const MultipleFileUploadForm = () => {
         }
 
         console.log("Files were uploaded successfylly:", data);
+        toast('Files were uploaded successfylly!', { hideProgressBar: true, autoClose: 2000, type: 'success',position:'top-center' })
+
       } catch (error) {
         console.error(error);
         alert("Sorry! something went wrong.");
@@ -49,6 +54,7 @@ const MultipleFileUploadForm = () => {
 
   const onFilesUploadChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
+    console.log("onFilesUploadChange = " + globalThis._cleanDB);
 
     if (!fileInput.files) {
       alert("No files were chosen");
@@ -88,12 +94,6 @@ const MultipleFileUploadForm = () => {
     fileInput.type = "file";
 
   };
-
-  const handleChange = (e: { target: { checked: any; }; }) => {
-    const { checked } = e.target;
-    setCleanDB(checked);
-  }
-
 
   return (
     <form
@@ -161,16 +161,7 @@ const MultipleFileUploadForm = () => {
           </button>
         </div>
       </div>
-
-      <div className="call">
-        <input
-          type="checkbox"
-          name="checkall"
-          checked={cleanDB}
-          onChange={handleChange}
-        />
-        <label htmlFor="checkall">Clean Vector Database</label>
-      </div>
+      <ToastContainer />
     </form>
   );
 };

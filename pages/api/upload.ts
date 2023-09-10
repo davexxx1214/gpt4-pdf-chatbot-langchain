@@ -5,7 +5,6 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { join } from "path";
 
-
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
@@ -26,10 +25,10 @@ const handler = async (
   // Just after the "Method Not Allowed" code
   try {
     const { files, fields} = await parseForm(req);
-
     const file = files.media;
     let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
-    let cleanDB = (Boolean)(fields.cleanDB);
+    let cleanDB = !Array.isArray(fields._cleanDB) && fields._cleanDB === "true";
+    console.log('cleanDB = ' + cleanDB);
 
     const uploadDir = join(
       process.env.ROOT_DIR || process.cwd(),
@@ -41,7 +40,6 @@ const handler = async (
 
     console.log('removing tmp files from : ', uploadDir);
     fs.rmSync(path.dirname(uploadDir), { recursive: true, force: true });
-
     res.status(200).json({
       data: {
         url,

@@ -29,6 +29,7 @@ const filePath = 'docs';
 export const run = async (filePath: string, cleanDB: boolean, summarize: boolean) => {
   try {
     /*load raw docs from the all files in the directory */
+    
     const directoryLoader = new DirectoryLoader(filePath, {
       '.pdf': (path) => new PDFLoader(path),
       // '.docx': (path) => new DocxLoader(path),

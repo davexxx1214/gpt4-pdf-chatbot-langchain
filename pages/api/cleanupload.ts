@@ -36,7 +36,7 @@ const handler = async (
     );
 
     console.log('parsing dir = ' + uploadDir);
-    await run(uploadDir, false, false);
+    await run(uploadDir, true, false);
 
     console.log('removing tmp files from : ', uploadDir);
     fs.rmSync(path.dirname(uploadDir), { recursive: true, force: true });

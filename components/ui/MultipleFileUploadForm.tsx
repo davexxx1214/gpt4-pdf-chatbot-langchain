@@ -17,8 +17,8 @@ const MultipleFileUploadForm = () => {
       try {
         var formData = new FormData();
         processfiles.forEach((file) => formData.append("media", file));
-        formData.append("_cleanDB", globalThis._cleanDB.toString()); 
-        const res = await fetch("/api/upload/", {
+        // formData.set("_cleanDB", globalThis._cleanDB.toString()); 
+        const res = await fetch(globalThis._cleanDB ? "/api/cleanupload" : "/api/upload/", {
           method: "POST",
           body: formData,
         });

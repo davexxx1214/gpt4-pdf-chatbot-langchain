@@ -52,12 +52,15 @@ export const run = async (filePath: string, cleanDB: boolean, summarize: boolean
 const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: boolean, summarize: boolean) => {
   try {
 
+    console.log('cleanDB = ', cleanDB);
+    console.log('summarize = ', summarize);
+
     const textSplitter = new RecursiveCharacterTextSplitter({
       chunkSize: 1000,
       chunkOverlap: 100,
     });
 
-    console.log('rawDocs', rawDocs);
+    // console.log('rawDocs', rawDocs);
 
     console.log('text splittering...');
     const docs = await textSplitter.splitDocuments(rawDocs);

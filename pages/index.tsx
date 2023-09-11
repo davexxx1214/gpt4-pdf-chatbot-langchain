@@ -13,12 +13,16 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import MultipleFileUploadForm from "@/components/ui//MultipleFileUploadForm";
+// import * as "@/pages/api/global";
 
 
 export default function Home() {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [cleanDB, setCleanDB] = useState<boolean>(false);
+  globalThis._cleanDB = cleanDB;
+
   const [messageState, setMessageState] = useState<{
     messages: Message[];
     pending?: string;
@@ -134,6 +138,13 @@ export default function Home() {
     }
   };
 
+  const handleChange = (e: { target: { checked: any; }; }) => {
+    const { checked } = e.target;
+    setCleanDB(checked);
+    globalThis._cleanDB= checked;
+    console.log("handleChange = " + globalThis._cleanDB);
+  }
+
   return (
     <>
       <Layout>
@@ -154,7 +165,15 @@ export default function Home() {
               </div>
             </div>
           </main>
-
+            <div className="w-full max-w-3xl px-3 mx-auto">
+              <input
+                type="checkbox"
+                name="checkall"
+                checked={cleanDB}
+                onChange={handleChange}
+              />
+              <label htmlFor="checkall">Clean Vector Database</label>
+            </div>
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>

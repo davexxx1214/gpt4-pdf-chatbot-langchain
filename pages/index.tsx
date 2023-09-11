@@ -140,7 +140,7 @@ export default function Home() {
   const handleChange = (e: { target: { checked: any; }; }) => {
     const { checked } = e.target;
     setCleanDB(checked);
-    globalThis._cleanDB= checked;
+    globalThis._cleanDB = checked;
     console.log("handleChange = " + globalThis._cleanDB);
   }
 
@@ -157,22 +157,26 @@ export default function Home() {
               <div className="space-y-10">
                 <div>
                   <h2 className="mb-3 text-xl font-bold text-gray-900">
-                     File Upload
+                    File Upload
                   </h2>
                   <MultipleFileUploadForm />
                 </div>
               </div>
             </div>
           </main>
-            <div className="w-full max-w-3xl px-3 mx-auto">
-              <input
-                type="checkbox"
-                name="checkall"
-                checked={cleanDB}
-                onChange={handleChange}
-              />
-              <label htmlFor="checkall">Clean Vector Database</label>
-            </div>
+          <div className="w-full max-w-3xl px-3 mx-auto">
+            <input
+              type="checkbox"
+              name="checkall"
+              checked={cleanDB}
+              onChange={handleChange}
+            />
+            <label htmlFor="checkall">Clean Vector Database</label>
+          </div>
+          <div>
+          <main className={styles.iframe}>
+            <iframe src="https://playcanv.as/p/2c2PJDU2/" height="60" width="60"> </iframe>
+          </main>
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
@@ -305,6 +309,7 @@ export default function Home() {
               </div>
             )}
           </main>
+          </div>
         </div>
         <footer className="m-auto p-4">
           <div>

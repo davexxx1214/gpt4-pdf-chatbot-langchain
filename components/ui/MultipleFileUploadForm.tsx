@@ -3,12 +3,48 @@ import { ChangeEvent, useState } from "react";
 const MultipleFileUploadForm = () => {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [processfiles, setProcessFiles] = useState<File[]>([]);
+  const [cleanDB, setCleanDB] = useState<boolean>(false);
+  const [uploading, setUploading] = useState<boolean>(false);
 
-  const onProcess = () => {
+  const onProcess = async () => {
     if (processfiles.length > 0) {
-      console.log("processing");
-    }
+      setUploading(true);
+      /** Uploading files to the server */
+      try {
+        var formData = new FormData();
+        processfiles.forEach((file) => formData.append("media", file));
+        formData.set("cleanDB", cleanDB.toString());
+        console.log("onProcess , cleanDB = " + cleanDB.toString());
+        const res = await fetch("/api/upload/", {
+          method: "POST",
+          body: formData,
+        });
 
+        const {
+          data,
+          error,
+        }: {
+          data: {
+            url: string | string[];
+          } | null;
+          error: string | null;
+        } = await res.json();
+
+        if (error || !data) {
+          alert(error || "Sorry! something went wrong.");
+          return;
+        }
+
+        console.log("Files were uploaded successfylly:", data);
+      } catch (error) {
+        console.error(error);
+        alert("Sorry! something went wrong.");
+      } finally {
+        setPreviewUrls([]);
+        setProcessFiles([]);
+        setUploading(false);
+      }
+    }
   }
 
   const onFilesUploadChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +82,18 @@ const MultipleFileUploadForm = () => {
       validFiles.map((validFile) => validFile.name)
     );
     setProcessFiles(validFiles);
+
+    /** Reset file input */
+    fileInput.type = "text";
+    fileInput.type = "file";
+
   };
+
+  const handleChange = (e: { target: { checked: any; }; }) => {
+    const { checked } = e.target;
+    setCleanDB(checked);
+  }
+
 
   return (
     <form
@@ -55,7 +102,7 @@ const MultipleFileUploadForm = () => {
     >
       <div className="flex flex-col md:flex-row gap-1.5 md:py-4">
         <div className="flex-grow">
-          {previewUrls.length > 0 ? (
+          {previewUrls.length > 0 && !uploading? (
             <div className="mx-auto w-80">
               {previewUrls.map((previewUrl) => (
                 <div key={previewUrl} className="w-full p-1.5 md:w-1/2">
@@ -79,9 +126,13 @@ const MultipleFileUploadForm = () => {
                   d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
                 />
               </svg>
-              <strong className="text-sm font-medium">Select PDF Files</strong>
+              {uploading ?
+                <strong className="text-sm font-medium">Uploading ... </strong> :
+                <strong className="text-sm font-medium">Select PDF Files</strong>
+              }
               <input
                 className="block w-0 h-0"
+                disabled={uploading}
                 name="file"
                 type="file"
                 onChange={onFilesUploadChange}
@@ -92,7 +143,7 @@ const MultipleFileUploadForm = () => {
         </div>
         <div className="flex mt-4 md:mt-0 md:flex-col justify-center gap-1.5">
           <button
-            disabled={previewUrls.length == 0}
+            disabled={previewUrls.length == 0 || uploading}
             onClick={() => {
               setPreviewUrls([]);
               setProcessFiles([]);
@@ -102,13 +153,23 @@ const MultipleFileUploadForm = () => {
             Cancel file
           </button>
           <button
-            disabled={previewUrls.length == 0}
+            disabled={previewUrls.length == 0 || uploading}
             onClick={onProcess}
             className="w-1/2 px-4 py-3 text-sm font-medium text-white transition-colors duration-300 bg-gray-700 rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
           >
             Upload file
           </button>
         </div>
+      </div>
+
+      <div className="call">
+        <input
+          type="checkbox"
+          name="checkall"
+          checked={cleanDB}
+          onChange={handleChange}
+        />
+        <label htmlFor="checkall">Clean Vector Database</label>
       </div>
     </form>
   );

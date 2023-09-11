@@ -10,58 +10,99 @@ import { OpenAI } from "langchain/llms/openai";
 import { loadSummarizationChain } from "langchain/chains";
 import { Document } from "langchain/document";
 
+// import {
+//   JSONLoader,
+//   JSONLinesLoader,
+// } from "langchain/document_loaders/fs/json";
+// import { TextLoader } from "langchain/document_loaders/fs/text";
+// import { CSVLoader } from "langchain/document_loaders/fs/csv";
+// import { DocxLoader } from "langchain/document_loaders/fs/docx";
+// import { UnstructuredHTMLLoader } from "langchain/document_loaders/fs/html";
+
 
 /* Name of directory to retrieve your files from 
    Make sure to add your PDF files inside the 'docs' folder
 */
 const filePath = 'docs';
 
-export const run = async () => {
+
+export const run = async (filePath: string, cleanDB: boolean, summarize: boolean) => {
   try {
     /*load raw docs from the all files in the directory */
     const directoryLoader = new DirectoryLoader(filePath, {
       '.pdf': (path) => new PDFLoader(path),
+      // '.docx': (path) => new DocxLoader(path),
+      // '.json': (path) => new JSONLoader(path, "/texts"),
+      // '.jsonl': (path) => new JSONLinesLoader(path, "/html"),
+      // '.txt': (path) => new TextLoader(path),
+      // '.csv': (path) => new CSVLoader(path, "text")
+      // '.html': (path) => new UnstructuredHTMLLoader(path),
     });
-
-    // const loader = new PDFLoader(filePath);
     const rawDocs = await directoryLoader.load();
 
-    /* Split text into chunks */
+    await processDocs(rawDocs, cleanDB, summarize);
+
+  } catch (error) {
+    console.log('error', error);
+    throw new Error('Failed to ingest your data');
+  }
+};
+
+
+const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: boolean, summarize: boolean) => {
+  try {
+
     const textSplitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 8000,
+      chunkSize: 1000,
       chunkOverlap: 100,
     });
 
+    console.log('rawDocs', rawDocs);
+
+    console.log('text splittering...');
     const docs = await textSplitter.splitDocuments(rawDocs);
     // console.log('split docs', docs);
 
     console.log('creating vector store...');
     /*create and store the embeddings in the vectorStore*/
-    const embeddings = new OpenAIEmbeddings({maxConcurrency: 10});
+    const embeddings = new OpenAIEmbeddings({ maxConcurrency: 5 });
     const index = pinecone.Index(PINECONE_INDEX_NAME); //change to your own index name
 
-
     const model = new OpenAI({ modelName: 'gpt-3.5-turbo-16k', temperature: 0 });
-
     // This convenience function creates a document chain prompted to summarize a set of documents.
     const chain = loadSummarizationChain(model, {
       type: "map_reduce",
       returnIntermediateSteps: true,
     });
-    const res = await chain.call({
-      input_documents: docs,
-    });
 
-    const summary_content = "The summary of this file is: " + res.text as string;
-    console.log(summary_content);
-    const summary = new Document({ pageContent : summary_content});
-    docs.push(summary);
 
-    // Delete all vectors in namespace
-    await index.delete1({
-      deleteAll: true,
-      namespace: PINECONE_NAME_SPACE
-    });
+    if (summarize) {
+      /* Split text into chunks */
+      const textSplitterSummary = new RecursiveCharacterTextSplitter({
+        chunkSize: 8000
+      });
+      const summary_docs = await textSplitterSummary.splitDocuments(rawDocs);
+      const res = await chain.call({
+        input_documents: summary_docs,
+      });
+
+      const summary_content = "The summary of the document(file) is: " + res.text as string;
+      console.log(summary_content);
+      const summary = new Document({ pageContent: summary_content });
+      docs.push(summary);
+    }
+
+
+    if (cleanDB) {
+      console.log('deleting old vector index...')
+      // Delete all vectors in namespace
+      await index.delete1({
+        deleteAll: true,
+        namespace: PINECONE_NAME_SPACE
+      });
+    }
+
+    console.log("updating vector store...");
 
     //embed the PDF documents
     await PineconeStore.fromDocuments(docs, embeddings, {
@@ -69,13 +110,16 @@ export const run = async () => {
       namespace: PINECONE_NAME_SPACE,
       textKey: 'text',
     });
+
+    console.log('process complete');
+
   } catch (error) {
     console.log('error', error);
     throw new Error('Failed to ingest your data');
   }
-};
+}
 
 (async () => {
-  await run();
+  await run(filePath, true, false);
   console.log('ingestion complete');
 })();

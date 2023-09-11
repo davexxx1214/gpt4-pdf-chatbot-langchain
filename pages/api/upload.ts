@@ -26,7 +26,9 @@ const handler = async (
   try {
     const { files, fields} = await parseForm(req);
     const file = files.media;
-    let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
+    let url = Array.isArray(file) ? file.map((f) => f.filepath) : file?.["filePath"];
+    if(!url)
+      url = [];
     let cleanDB = !Array.isArray(fields._cleanDB) && fields._cleanDB === "true";
     console.log('cleanDB = ' + cleanDB);
 

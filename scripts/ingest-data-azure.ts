@@ -19,9 +19,9 @@ import * as path from "node:path";
 //   JSONLoader,
 //   JSONLinesLoader,
 // } from "langchain/document_loaders/fs/json";
-// import { TextLoader } from "langchain/document_loaders/fs/text";
+import { TextLoader } from "langchain/document_loaders/fs/text";
+import { DocxLoader } from "langchain/document_loaders/fs/docx";
 // import { CSVLoader } from "langchain/document_loaders/fs/csv";
-// import { DocxLoader } from "langchain/document_loaders/fs/docx";
 // import { UnstructuredHTMLLoader } from "langchain/document_loaders/fs/html";
 
 
@@ -58,10 +58,8 @@ export const run = async (cleanDB: boolean, summarize: boolean) => {
 
       const directoryLoader = new DirectoryLoader(tempDir, {
         '.pdf': (path) => new PDFLoader(path),
-        // '.docx': (path) => new DocxLoader(path),
-        // '.json': (path) => new JSONLoader(path, "/texts"),
-        // '.jsonl': (path) => new JSONLinesLoader(path, "/html"),
-        // '.txt': (path) => new TextLoader(path),
+        '.docx': (path) => new DocxLoader(path),
+        '.txt': (path) => new TextLoader(path),
         // '.csv': (path) => new CSVLoader(path, "text")
         // '.html': (path) => new UnstructuredHTMLLoader(path),
       });
@@ -85,51 +83,56 @@ export const run = async (cleanDB: boolean, summarize: boolean) => {
 const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: boolean, summarize: boolean) => {
   try {
 
-    /* Split text into chunks */
-    const textSplitterSummary = new RecursiveCharacterTextSplitter({
-      chunkSize: 8000
-    });
+    console.log('cleanDB = ', cleanDB);
+    console.log('summarize = ', summarize);
 
     const textSplitter = new RecursiveCharacterTextSplitter({
       chunkSize: 1000,
       chunkOverlap: 100,
     });
 
-    console.log('rawDocs', rawDocs);
+    // console.log('rawDocs', rawDocs);
 
     console.log('text splittering...');
-    const summary_docs = await textSplitterSummary.splitDocuments(rawDocs);
     const docs = await textSplitter.splitDocuments(rawDocs);
-    // console.log('split docs', docs);
+    console.log('split docs', docs);
 
     console.log('creating vector store...');
     /*create and store the embeddings in the vectorStore*/
     const embeddings = new OpenAIEmbeddings({ maxConcurrency: 5 });
     const index = pinecone.Index(PINECONE_INDEX_NAME); //change to your own index name
 
-    const model = new OpenAI({ modelName: 'gpt-3.5-turbo-16k', temperature: 0 });
-    // This convenience function creates a document chain prompted to summarize a set of documents.
-    const chain = loadSummarizationChain(model, {
-      type: "map_reduce",
-      returnIntermediateSteps: true,
-    });
-    const res = await chain.call({
-      input_documents: summary_docs,
-    });
+    if (summarize) {
+      const model = new OpenAI({ modelName: 'gpt-3.5-turbo-16k', temperature: 0 });
+      // This convenience function creates a document chain prompted to summarize a set of documents.
+      const chain = loadSummarizationChain(model, {
+        type: "map_reduce",
+        returnIntermediateSteps: true,
+      });
+      /* Split text into chunks */
+      const textSplitterSummary = new RecursiveCharacterTextSplitter({
+        chunkSize: 8000
+      });
+      const summary_docs = await textSplitterSummary.splitDocuments(rawDocs);
+      const res = await chain.call({
+        input_documents: summary_docs,
+      });
 
-    const summary_content = "The summary of the document(file) is: " + res.text as string;
-    console.log(summary_content);
-    const summary = new Document({ pageContent: summary_content });
-    docs.push(summary);
+      const summary_content = "The summary of the document(file) is: " + res.text as string;
+      console.log(summary_content);
+      const summary = new Document({ pageContent: summary_content });
+      docs.push(summary);
+    }
 
 
-    console.log('deleting old vector index...')
-    // Delete all vectors in namespace
-    await index.delete1({
-      deleteAll: true,
-      namespace: PINECONE_NAME_SPACE
-    });
-
+    if (cleanDB) {
+      console.log('deleting old vector index...')
+      // Delete all vectors in namespace
+      await index.delete1({
+        deleteAll: true,
+        namespace: PINECONE_NAME_SPACE
+      });
+    }
 
     console.log("updating vector store...");
 
@@ -139,6 +142,9 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
       namespace: PINECONE_NAME_SPACE,
       textKey: 'text',
     });
+
+    console.log('process complete');
+
   } catch (error) {
     console.log('error', error);
     throw new Error('Failed to ingest your data');

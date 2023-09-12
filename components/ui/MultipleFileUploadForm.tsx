@@ -71,7 +71,6 @@ const MultipleFileUploadForm = () => {
     for (let i = 0; i < fileInput.files.length; i++) {
       const file = fileInput.files[i];
 
-      debugger
       if (!file.type.startsWith("application/pdf")
         && !file.type.startsWith("text/plain")
         && !file.type.startsWith("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {

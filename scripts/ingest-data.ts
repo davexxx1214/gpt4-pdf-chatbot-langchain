@@ -14,9 +14,9 @@ import { Document } from "langchain/document";
 //   JSONLoader,
 //   JSONLinesLoader,
 // } from "langchain/document_loaders/fs/json";
-// import { TextLoader } from "langchain/document_loaders/fs/text";
+import { TextLoader } from "langchain/document_loaders/fs/text";
 // import { CSVLoader } from "langchain/document_loaders/fs/csv";
-// import { DocxLoader } from "langchain/document_loaders/fs/docx";
+import { DocxLoader } from "langchain/document_loaders/fs/docx";
 // import { UnstructuredHTMLLoader } from "langchain/document_loaders/fs/html";
 
 
@@ -32,10 +32,8 @@ export const run = async (filePath: string, cleanDB: boolean, summarize: boolean
     
     const directoryLoader = new DirectoryLoader(filePath, {
       '.pdf': (path) => new PDFLoader(path),
-      // '.docx': (path) => new DocxLoader(path),
-      // '.json': (path) => new JSONLoader(path, "/texts"),
-      // '.jsonl': (path) => new JSONLinesLoader(path, "/html"),
-      // '.txt': (path) => new TextLoader(path),
+      '.docx': (path) => new DocxLoader(path),
+      '.txt': (path) => new TextLoader(path),
       // '.csv': (path) => new CSVLoader(path, "text")
       // '.html': (path) => new UnstructuredHTMLLoader(path),
     });
@@ -65,22 +63,20 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
 
     console.log('text splittering...');
     const docs = await textSplitter.splitDocuments(rawDocs);
-    // console.log('split docs', docs);
+    console.log('split docs', docs);
 
     console.log('creating vector store...');
     /*create and store the embeddings in the vectorStore*/
     const embeddings = new OpenAIEmbeddings({ maxConcurrency: 5 });
     const index = pinecone.Index(PINECONE_INDEX_NAME); //change to your own index name
 
-    const model = new OpenAI({ modelName: 'gpt-3.5-turbo-16k', temperature: 0 });
-    // This convenience function creates a document chain prompted to summarize a set of documents.
-    const chain = loadSummarizationChain(model, {
-      type: "map_reduce",
-      returnIntermediateSteps: true,
-    });
-
-
     if (summarize) {
+      const model = new OpenAI({ modelName: 'gpt-3.5-turbo-16k', temperature: 0 });
+      // This convenience function creates a document chain prompted to summarize a set of documents.
+      const chain = loadSummarizationChain(model, {
+        type: "map_reduce",
+        returnIntermediateSteps: true,
+      });
       /* Split text into chunks */
       const textSplitterSummary = new RecursiveCharacterTextSplitter({
         chunkSize: 8000
@@ -96,6 +92,22 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
       docs.push(summary);
     }
 
+    console.log("check status of vector DB...")
+    const checkStatus = async () => {
+      const { status } = await pinecone.describeIndex({
+        indexName: PINECONE_INDEX_NAME,
+      })
+      if (status?.ready) {
+        return status
+      } else {
+        return new Promise((resolve) => {
+          setTimeout(() => resolve(checkStatus()), 1000)
+        })
+      }
+    }
+
+    await checkStatus();
+    console.log("check status of vector DB done!")
 
     if (cleanDB) {
       console.log('deleting old vector index...')
@@ -106,7 +118,10 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
       });
     }
 
+
+
     console.log("updating vector store...");
+
 
     //embed the PDF documents
     await PineconeStore.fromDocuments(docs, embeddings, {
@@ -124,6 +139,6 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
 }
 
 (async () => {
-  await run(filePath, true, false);
+  await run(filePath, false, false);
   console.log('ingestion complete');
 })();

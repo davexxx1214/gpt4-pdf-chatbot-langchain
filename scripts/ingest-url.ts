@@ -2,83 +2,41 @@ import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { pinecone } from '@/utils/pinecone-client';
-import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
 import { PINECONE_INDEX_NAME, PINECONE_NAME_SPACE } from '@/config/pinecone';
-import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
 
 import { OpenAI } from "langchain/llms/openai";
 import { loadSummarizationChain } from "langchain/chains";
 import { Document } from "langchain/document";
 
-
-import { BlobServiceClient } from "@azure/storage-blob";
-import * as fs from "node:fs";
-import * as path from "node:path";
-
-// import {
-//   JSONLoader,
-//   JSONLinesLoader,
-// } from "langchain/document_loaders/fs/json";
-import { TextLoader } from "langchain/document_loaders/fs/text";
-import { DocxLoader } from "langchain/document_loaders/fs/docx";
-// import { CSVLoader } from "langchain/document_loaders/fs/csv";
-// import { UnstructuredHTMLLoader } from "langchain/document_loaders/fs/html";
-
-
-/* Name of directory to retrieve your files from 
-   Make sure to add your PDF files inside the 'docs' folder
-*/
-const filePath = 'docs/';
-const connectionString: string = process.env['AZURE_CONNECTION_STRING'] || '';
-const container: string = process.env['AZURE_CONTAINER'] || '';
+import { compile } from "html-to-text";
+import { RecursiveUrlLoader } from "langchain/document_loaders/web/recursive_url";
 
 export const run = async (cleanDB: boolean, summarize: boolean) => {
   try {
     /*load raw docs from the all files in the directory */
     
-    const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
-    const containerClient = blobServiceClient.getContainerClient(container);
+    const url = "https://help.easyar.cn/EasyAR%20Mega/Questions/FAQ.html";
 
-
-    if(!fs.existsSync(filePath))
-      fs.mkdirSync(filePath);
+    const compiledConvert = compile({ wordwrap: 130 }); // returns (text: string) => string;
     
-    const tempDir = fs.mkdtempSync(path.join(filePath, "azureblobfileloader"));
+    const loader = new RecursiveUrlLoader(url, {
+      extractor: compiledConvert,
+      maxDepth: 1,
+      excludeDirs: [""],
+    });
+    
+    debugger
+    const docs = await loader.load();
+    console.log('docs = ' + docs);
 
-    try {
-
-      for await (const blob of containerClient.listBlobsFlat()) {
-        let tmpFilePath = path.join(tempDir, blob.name);
-        const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
-        const containerClient = blobServiceClient.getContainerClient(container);
-        const blobClient = containerClient.getBlobClient(blob.name);
-        fs.mkdirSync(path.dirname(tmpFilePath), { recursive: true });
-        await blobClient.downloadToFile(tmpFilePath);
-      }
-
-      const directoryLoader = new DirectoryLoader(tempDir, {
-        '.pdf': (path) => new PDFLoader(path),
-        '.docx': (path) => new DocxLoader(path),
-        '.txt': (path) => new TextLoader(path),
-        // '.csv': (path) => new CSVLoader(path, "text")
-        // '.html': (path) => new UnstructuredHTMLLoader(path),
-      });
-      const rawDocs = await directoryLoader.load();
-  
-      processDocs(rawDocs, cleanDB, summarize);
-
-    } catch (e) {
-      throw new Error(`Failed to download file from Azure Blob Storage container ${container}: ${e}`);
-    } finally {
-      console.log('removing tmp files from : ', tempDir);
-      fs.rmSync(path.dirname(tempDir), { recursive: true, force: true });
-    }
+    await processDocs(docs, cleanDB, summarize);
 
   } catch (error) {
     console.log('error', error);
     throw new Error('Failed to ingest your data');
   }
 };
+
 
 const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: boolean, summarize: boolean) => {
   try {
@@ -124,6 +82,22 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
       docs.push(summary);
     }
 
+    console.log("check status of vector DB...")
+    const checkStatus = async () => {
+      const { status } = await pinecone.describeIndex({
+        indexName: PINECONE_INDEX_NAME,
+      })
+      if (status?.ready) {
+        return status
+      } else {
+        return new Promise((resolve) => {
+          setTimeout(() => resolve(checkStatus()), 1000)
+        })
+      }
+    }
+
+    await checkStatus();
+    console.log("check status of vector DB done!")
 
     if (cleanDB) {
       console.log('deleting old vector index...')
@@ -134,7 +108,10 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
       });
     }
 
+
+
     console.log("updating vector store...");
+
 
     //embed the PDF documents
     await PineconeStore.fromDocuments(docs, embeddings, {
@@ -152,6 +129,6 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
 }
 
 (async () => {
-  await run(true, false);
+  await run(false, false);
   console.log('ingestion complete');
 })();

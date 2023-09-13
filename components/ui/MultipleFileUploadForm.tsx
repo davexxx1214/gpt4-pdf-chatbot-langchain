@@ -71,8 +71,10 @@ const MultipleFileUploadForm = () => {
     for (let i = 0; i < fileInput.files.length; i++) {
       const file = fileInput.files[i];
 
-      if (!file.type.startsWith("application/pdf")) {
-        alert(`File with idx: ${i} is invalid`);
+      if (!file.type.startsWith("application/pdf")
+        && !file.type.startsWith("text/plain")
+        && !file.type.startsWith("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
+        alert(`File with type: ` + file.type + ` is invalid`);
         continue;
       }
 
@@ -128,7 +130,7 @@ const MultipleFileUploadForm = () => {
               </svg>
               {uploading ?
                 <strong className="text-sm font-medium">Uploading ... </strong> :
-                <strong className="text-sm font-medium">Select PDF Files</strong>
+                <strong className="text-sm font-medium">Select Your PDF/Docx/Txt Files</strong>
               }
               <input
                 className="block w-0 h-0"

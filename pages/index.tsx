@@ -12,8 +12,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import MultipleFileUploadForm from "@/components/ui//MultipleFileUploadForm";
-// import * as "@/pages/api/global";
 
 export default function Home() {
   const [query, setQuery] = useState<string>('');
@@ -151,29 +149,6 @@ export default function Home() {
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Chat With Your Docs
           </h1>
-
-          <main className="py-10">
-            <div className="w-full max-w-3xl px-3 mx-auto">
-              <div className="space-y-10">
-                <div>
-                  <h2 className="mb-3 text-xl font-bold text-gray-900">
-                    File Upload
-                  </h2>
-                  <MultipleFileUploadForm />
-                </div>
-              </div>
-            </div>
-          </main>
-          <div className="w-full max-w-3xl px-3 mx-auto">
-            <input
-              type="checkbox"
-              name="checkall"
-              checked={cleanDB}
-              onChange={handleChange}
-            />
-            <label htmlFor="checkall">Clean Vector Database</label>
-          </div>
-          <div>
           <main className={styles.iframe}>
             <iframe src="https://playcanv.as/p/2c2PJDU2/" height="60" width="60"> </iframe>
           </main>
@@ -310,7 +285,6 @@ export default function Home() {
             )}
           </main>
           </div>
-        </div>
         <footer className="m-auto p-4">
           <div>
             Powered by chatGPT

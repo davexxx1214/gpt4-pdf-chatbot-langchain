@@ -15,8 +15,9 @@ import { Document } from "langchain/document";
 //   JSONLinesLoader,
 // } from "langchain/document_loaders/fs/json";
 import { TextLoader } from "langchain/document_loaders/fs/text";
-// import { CSVLoader } from "langchain/document_loaders/fs/csv";
 import { DocxLoader } from "langchain/document_loaders/fs/docx";
+import { CSVLoader } from "langchain/document_loaders/fs/csv";
+
 // import { UnstructuredHTMLLoader } from "langchain/document_loaders/fs/html";
 
 
@@ -34,7 +35,7 @@ export const run = async (filePath: string, cleanDB: boolean, summarize: boolean
       '.pdf': (path) => new PDFLoader(path),
       '.docx': (path) => new DocxLoader(path),
       '.txt': (path) => new TextLoader(path),
-      // '.csv': (path) => new CSVLoader(path, "text")
+      '.csv': (path) => new CSVLoader(path)
       // '.html': (path) => new UnstructuredHTMLLoader(path),
     });
     const rawDocs = await directoryLoader.load();
@@ -59,7 +60,7 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
       chunkOverlap: 100,
     });
 
-    // console.log('rawDocs', rawDocs);
+    console.log('rawDocs', rawDocs);
 
     console.log('text splittering...');
     const docs = await textSplitter.splitDocuments(rawDocs);

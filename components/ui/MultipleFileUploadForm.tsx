@@ -73,6 +73,7 @@ const MultipleFileUploadForm = () => {
 
       if (!file.type.startsWith("application/pdf")
         && !file.type.startsWith("text/plain")
+        && !file.type.startsWith("text/csv")
         && !file.type.startsWith("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
         alert(`File with type: ` + file.type + ` is invalid`);
         continue;
@@ -130,7 +131,7 @@ const MultipleFileUploadForm = () => {
               </svg>
               {uploading ?
                 <strong className="text-sm font-medium">Uploading ... </strong> :
-                <strong className="text-sm font-medium">Select Your PDF/Docx/Txt Files</strong>
+                <strong className="text-sm font-medium">Select Your PDF/DOCX/TXT/CSV Files </strong>
               }
               <input
                 className="block w-0 h-0"

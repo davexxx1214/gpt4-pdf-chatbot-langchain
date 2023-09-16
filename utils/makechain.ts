@@ -15,8 +15,8 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
     如果你找到了适合的模型组合，请在答案最后附加相应的图片，如果有多个模型，请附加多个图片
 
     示例：
-    ![modl name]({Model Image Url})
-    其中{Model Image Url}对应图片的地址
+    ![modl name](<Model Image Url>)
+    其中<Model Image Url>对应图片的地址
     
     {context}
     
@@ -40,7 +40,7 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
     The combination you recommend must meet the user's risk tolerance exactly.
     You cannot recommend models with risk tolerance that exceed the user's risk tolerance.
 
-    Total Return(Required total return): The weighted average of the Annual Total Return of the combination you recommend must be greater than or equal to the Total Return required by the user.Sort bigger values first.
+    Total Return(Required total return): The weighted average of the Annual Total Return of the combination you recommend must be greater than or equal to the Total Return required by the user.Sort bigger values first.you must list respective proportions in each model, and how you caculate it.
 
     Standard Deviation(Required Standard Deviation): The weighted average of the Annual Standard Deviation of the combination you recommend must be less than or equal to the Standard Deviation required by the user.Sort smaller values first.
 

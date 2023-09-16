@@ -140,6 +140,6 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
 }
 
 (async () => {
-  await run(filePath, false, false);
+  await run(filePath, true, false);
   console.log('ingestion complete');
 })();

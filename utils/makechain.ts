@@ -35,9 +35,13 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
     If there are multiple combinations in the recommendation, they should be sorted based on the keywords mentioned in the user's problem.
     The combination you recommend should prioritize the keywords mentioned in the user's problem. Possible keywords that may occur are as follows:
 
-    Risk tolerance: The combination you recommend must meet the user's risk tolerance exactly.If the risk tolerance of the model does not match the user's, you cannot recommend this model.
-    Total Return: The weighted average of the Annual Total Return of the combination you recommend must be greater than or equal to the Total Return required by the user.Sort bigger values first.
-    Standard Deviation: The weighted average of the Annual Standard Deviation of the combination you recommend must be less than or equal to the Standard Deviation required by the user.Sort smaller values first.
+    Risk tolerance:First, you need to identify the user's risk tolerance and classify it into one of the following five categories,The five categories are arranged from low to high as follows: 'Conservative','Balance','Moderate','Growth','Aggressive'
+    The combination you recommend must meet the user's risk tolerance exactly.If the risk tolerance of the model does not match the user's, you cannot recommend this model.
+
+    Total Return(Required total return): The weighted average of the Annual Total Return of the combination you recommend must be greater than or equal to the Total Return required by the user.Sort bigger values first.
+    
+    Standard Deviation(Required Standard Deviation): The weighted average of the Annual Standard Deviation of the combination you recommend must be less than or equal to the Standard Deviation required by the user.Sort smaller values first.
+    
     Expense ratio: The weighted average of the NET EXPENSE RATIO of the combination you recommend must be less than or equal to the Expense ratio required by the user.Sort smaller values first.
 
     If the user does not mention Standard Deviation, the model you recommend should prioritize minimizing the Annual Standard Deviation while meeting other conditions. 
@@ -52,6 +56,8 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
 
     example of asset allocation image：
     ![modl name](<Model Image Url>)
+
+    you must relace <Model Image Url> to image url according to the model name,
     <Model Image Url> is the image url can be found in context:
     {context}
     
@@ -76,7 +82,7 @@ export const makeChain = (vectorstore: PineconeStore) => {
     {
       qaTemplate: QA_PROMPT,
       questionGeneratorTemplate: CONDENSE_PROMPT,
-      returnSourceDocuments: false, //The number of source documents returned is 4 by default
+      returnSourceDocuments: true, //The number of source documents returned is 4 by default
     },
   );
   return chain;

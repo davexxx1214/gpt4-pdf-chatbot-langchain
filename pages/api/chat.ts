@@ -25,7 +25,8 @@ export default async function handler(
     return res.status(400).json({ message: 'No question in the request' });
   }
   // OpenAI recommends replacing newlines with spaces for best results
-  const sanitizedQuestion = question.trim().replaceAll('\n', ' ') + ",recommend one or several combinations of models, you can find the answer in All Avalible Modes.";
+  const search_tip = ",recommend one or several combinations of models, you can find the answer in All Avalible Modes.";
+  const sanitizedQuestion = question.trim().replaceAll('\n', ' ') + search_tip;
 
   try {
     const index = pinecone.Index(PINECONE_INDEX_NAME);

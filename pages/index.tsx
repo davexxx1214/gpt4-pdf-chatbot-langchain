@@ -28,7 +28,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: 'Hello! How can I assist you today?',
+        message: 'Hello! How can I assist you today? I can recommend the most suitable model for you based on several dimensions: Risk tolerance (Conservative/Moderate Conservative/Moderate/Growth/Aggressive), Investment goal (Preserve capital/Grow portfolio/Generate income), total return, Standard Deviation, and EXPENSE RATIO.',
         type: 'apiMessage',
       },
     ],

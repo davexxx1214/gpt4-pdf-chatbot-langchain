@@ -28,7 +28,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: 'Hi, what would you like to learn about this document?',
+        message: 'Hello! How can I assist you today?',
         type: 'apiMessage',
       },
     ],
@@ -143,11 +143,12 @@ export default function Home() {
   }
 
   return (
+    
     <>
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Chat With Your Docs
+            Chat Bot
           </h1>
           <main className={styles.iframe}>
             <iframe src="https://playcanv.as/p/2c2PJDU2/" height="60" width="60"> </iframe>
@@ -164,8 +165,8 @@ export default function Home() {
                         key={index}
                         src="/bot-image.jpg"
                         alt="AI"
-                        width="40"
-                        height="40"
+                        width="30"
+                        height="30"
                         className={styles.boticon}
                         priority
                       />
@@ -196,15 +197,6 @@ export default function Home() {
                         <div className={styles.markdownanswer}>
                           <ReactMarkdown linkTarget="_blank">
                             {message.message}
-                            {<Image
-                        key={index}
-                        src="/bot-image.jpg"
-                        alt="AI"
-                        width="40"
-                        height="40"
-                        className={styles.boticon}
-                        priority
-                      />}
                           </ReactMarkdown>
                         </div>
                       </div>

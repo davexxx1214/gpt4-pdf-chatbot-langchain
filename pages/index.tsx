@@ -162,7 +162,7 @@ export default function Home() {
                     icon = (
                       <Image
                         key={index}
-                        src="/bot-image.png"
+                        src="/bot-image.jpg"
                         alt="AI"
                         width="40"
                         height="40"
@@ -196,6 +196,15 @@ export default function Home() {
                         <div className={styles.markdownanswer}>
                           <ReactMarkdown linkTarget="_blank">
                             {message.message}
+                            {<Image
+                        key={index}
+                        src="/bot-image.jpg"
+                        alt="AI"
+                        width="40"
+                        height="40"
+                        className={styles.boticon}
+                        priority
+                      />}
                           </ReactMarkdown>
                         </div>
                       </div>

@@ -42,7 +42,7 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
 
     Total Return(Required total return): The weighted average of the Annual Total Return of the combination you recommend must be greater than or equal to the Total Return required by the user.Sort bigger values first.you must list respective proportions in each model, and how you caculate it.
 
-    Standard Deviation(Required Standard Deviation): The weighted average of the Annual Standard Deviation of the combination you recommend must be less than or equal to the Standard Deviation required by the user.Sort smaller values first.
+    Standard Deviation(Required Standard Deviation): The weighted average of the Annual Standard Deviation of the combination you recommend must be less than or equal to the Standard Deviation required by the user.Sort smaller values first.you must list respective proportions in each model, and how you caculate it.
 
     Expense ratio: The weighted average of the NET EXPENSE RATIO of the combination you recommend must be less than or equal to the Expense ratio required by the user.Sort smaller values first.
 

@@ -28,7 +28,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: 'Hello! How can I assist you today? I can recommend the most suitable model for you based on several dimensions: Risk tolerance (Conservative/Moderate Conservative/Moderate/Growth/Aggressive), Investment goal (Preserve capital/Grow portfolio/Generate income), total return, Standard Deviation, and EXPENSE RATIO.',
+        message: 'I can recommend the most suitable model for you based on several dimensions: Risk tolerance (Conservative/Moderate Conservative/Moderate/Growth/Aggressive), Investment goal (Preserve capital/Grow portfolio/Generate income), total return, Standard Deviation, and EXPENSE RATIO.',
         type: 'apiMessage',
       },
     ],
@@ -148,7 +148,7 @@ export default function Home() {
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Chat Bot
+            Intelligent Robo-advisor
           </h1>
           <main className={styles.iframe}>
             <iframe src="https://playcanv.as/p/2c2PJDU2/" height="60" width="60"> </iframe>

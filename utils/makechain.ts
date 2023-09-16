@@ -36,12 +36,14 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
     The combination you recommend should prioritize the keywords mentioned in the user's problem. Possible keywords that may occur are as follows:
 
     Risk tolerance:First, you need to identify the user's risk tolerance and classify it into one of the following five categories,The five categories are arranged from low to high as follows: 'Conservative','Balance','Moderate','Growth','Aggressive'
-    The combination you recommend must meet the user's risk tolerance exactly.If the risk tolerance of the model does not match the user's, you cannot recommend this model.
+    'Conservative'< 'Balance' < 'Moderate' < 'Growth' < 'Aggressive'
+    The combination you recommend must meet the user's risk tolerance exactly.
+    You cannot recommend models with risk tolerance that exceed the user's risk tolerance.
 
     Total Return(Required total return): The weighted average of the Annual Total Return of the combination you recommend must be greater than or equal to the Total Return required by the user.Sort bigger values first.
-    
+
     Standard Deviation(Required Standard Deviation): The weighted average of the Annual Standard Deviation of the combination you recommend must be less than or equal to the Standard Deviation required by the user.Sort smaller values first.
-    
+
     Expense ratio: The weighted average of the NET EXPENSE RATIO of the combination you recommend must be less than or equal to the Expense ratio required by the user.Sort smaller values first.
 
     If the user does not mention Standard Deviation, the model you recommend should prioritize minimizing the Annual Standard Deviation while meeting other conditions. 
@@ -50,7 +52,7 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
 
     The model must be listed with together with Risk tolerance,Annual Total Return,Annual Standard Deviation,NET EXPENSE RATIO. You should not list Model Image Url together with model.
 
-    If there are multiple models in the combination, you should list them out in proportion.
+    If there are multiple models in the combination, you must list respective proportions in each model, and how you caculate it.
     If you find a suitable combination of models, please attach the corresponding asset allocation image in markdown format at the end of your answer. 
     If there are multiple models, please attach asset allocation images in markdown format.
 

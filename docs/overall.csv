@@ -1,11 +1,11 @@
-All Avalible Modes,Investment goal,Risk tolerance,Investment vehiclese,Annual Total Return,Annual Standard Deviation,YTM,NET EXPENSE RATIO,Model Image Url
-SS Absolute Return Model, Preserve capital,"Conservative",Mutual Fund,3.88%,3.12%,3.86%,0.71%,/model/SS-Absolute-Return-Model.png
-SS Strategic 20-80 ETF Model,Preserve capital,"Conservative",ETF,2.22%,9.24%,3.05%,0.15%,/model/SS-Strategic-20-80-ETF-Model.png
-SS Strategic 40-60 ETF Model,Grow portfolio,"Balanced",ETF,5.39%,11.29%,2.70%,0.15%,/model/SS-Strategic-40-60-ETF-Model.png
-SS Strategic 40-60 ETF/MF Model,Grow portfolio,"Balanced",Mutual Fund / ETF,5.46%,11.21%,2.70%,0.30%,/model/SS-Strategic-40-60-ETF-MF-Model.png
-SS Multi-Asset Income 60-40 ETF Model,Generate income,"Moderate",ETF,8.69%,12.60%,4.58%,0.28%,/model/SS-Multi-Asset-Income-60-40ETF-Model.png
-SS Multi-Asset Income 60-40 Model,Generate income,"Moderate",Mutual Fund / ETF,7.34%,12.43%,4.28%,0.46%,/model/SS-Multi-Asset-Income-60-40-Model.png
-SS Multi-Asset Income 75-25 MF/ETF Model,"Generate income",Growth,Mutual Fund / ETF,9.54%,14.50%,4.53%,0.34%,/model/SS-Multi-Asset-Income-75-25-MF-ETF-Model.png
-SS Strategic 75-25 ETF Model,Grow portfolio,"Growth",ETF,10.97%,15.49%,2.08%,0.14%,/model/SS-Strategic-75-25-ETF-Model.png
-SS Strategic 100-0 ETF Model,Grow portfolio,"Aggressive",ETF,14.80%,18.61%,1.66%,0.13%,/model/SS-Strategic-100-0-ETF-Model.png
-SS Tactical 100-0 Model,Grow portfolio,"Aggressive",Mutual Fund / ETF,14.24%,18.30%,1.51%,0.56%,/model/SS-Tactical-100-0-Model.png
+All Avalible Modes,Investment goal,Risk tolerance,Investment vehiclese,Annual Total Return,Annual Standard Deviation,YTM,NET EXPENSE RATIO,Asset Allocation Preview
+SS Absolute Return Model, Preserve capital,Conservative,Mutual Fund,3.88%,3.12%,3.86%,0.71%,/model/SS-Absolute-Return-Model.png
+SS Strategic 20-80 ETF Model,Preserve capital,Conservative,ETF,2.22%,9.24%,3.05%,0.15%,/model/SS-Strategic-20-80-ETF-Model.png
+SS Strategic 40-60 ETF Model,Grow portfolio,Balanced,ETF,5.39%,11.29%,2.70%,0.15%,/model/SS-Strategic-40-60-ETF-Model.png
+SS Strategic 40-60 ETF/MF Model,Grow portfolio,Balanced,Mutual Fund / ETF,5.46%,11.21%,2.70%,0.30%,/model/SS-Strategic-40-60-ETF-MF-Model.png
+SS Multi-Asset Income 60-40 ETF Model,Generate income,Moderate,ETF,8.69%,12.60%,4.58%,0.28%,/model/SS-Multi-Asset-Income-60-40ETF-Model.png
+SS Multi-Asset Income 60-40 Model,Generate income,Moderate,Mutual Fund / ETF,7.34%,12.43%,4.28%,0.46%,/model/SS-Multi-Asset-Income-60-40-Model.png
+SS Multi-Asset Income 75-25 MF/ETF Model,Generate income,Growth,Mutual Fund / ETF,9.54%,14.50%,4.53%,0.34%,/model/SS-Multi-Asset-Income-75-25-MF-ETF-Model.png
+SS Strategic 75-25 ETF Model,Grow portfolio,Growth,ETF,10.97%,15.49%,2.08%,0.14%,/model/SS-Strategic-75-25-ETF-Model.png
+SS Strategic 100-0 ETF Model,Grow portfolio,Aggressive,ETF,14.80%,18.61%,1.66%,0.13%,/model/SS-Strategic-100-0-ETF-Model.png
+SS Tactical 100-0 Model,Grow portfolio,Aggressive,Mutual Fund / ETF,14.24%,18.30%,1.51%,0.56%,/model/SS-Tactical-100-0-Model.png

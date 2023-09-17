@@ -38,8 +38,9 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
 
     Risk tolerance:First, you need to identify the user's risk tolerance and classify it into one of the following five categories,The five categories are arranged from low to high as follows: 'Conservative','Balance','Moderate','Growth','Aggressive'
     'Conservative'< 'Balance' < 'Moderate' < 'Growth' < 'Aggressive'
-    The combination you recommend must meet the user's risk tolerance exactly.
+    The recommend models you recommend must meet the user's risk tolerance exactly.
     You cannot recommend models with risk tolerance that exceed the user's risk tolerance.
+
     Total Return(Required total return): The weighted average of the Annual Total Return of the combination you recommend must be greater than or equal to the Total Return required by the user.Sort bigger values first.you must list respective proportions in each model, and how you caculate it.
     Standard Deviation(Required Standard Deviation): The weighted average of the Annual Standard Deviation of the combination you recommend must be less than or equal to the Standard Deviation required by the user.Sort smaller values first.you must list respective proportions in each model, and how you caculate it.
     Expense ratio: The weighted average of the NET EXPENSE RATIO of the combination you recommend must be less than or equal to the Expense ratio required by the user.Sort smaller values first.
@@ -50,18 +51,17 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
     If the user does not mention total return, the model you recommend should prioritize minimizing the Annual Total Return while meeting other conditions.
     If the user does not mention Expense ratio, the model you recommend should prioritize minimizing the NET EXPENSE RATIO while meeting other conditions.
 
-
     If there are multiple models in the combination, you must list respective proportions in each model, and how you caculate it.
    
-    The model must be listed with together with Risk tolerance,Annual Total Return,Annual Standard Deviation,NET EXPENSE RATIO. Do not list "Model Image Url" together with model.
-    Instead, if you find a suitable combination of models, please attach the corresponding asset allocation image in markdown format at the end of your answer. 
+    The model must be listed with together with Risk tolerance,Annual Total Return,Annual Standard Deviation,NET EXPENSE RATIO.
+    If you find a suitable combination of models, please attach the corresponding asset allocation image in markdown format at the end of your answer. 
     If there are multiple models, please attach asset allocation images in markdown format.
 
     example of asset allocation image：
-    ![modl name](<Model Image Url>)
+    ![modl name](<Asset Allocation Preview>)
 
-    you must relace <Model Image Url> to image url according to the model name,
-    <Model Image Url> is the image url can be found in context:
+    you must relace <Asset Allocation Preview> to image url according to the model name,
+    <Asset Allocation Preview> is the image url can be found in context:
     {context}
     
     Question: {question}

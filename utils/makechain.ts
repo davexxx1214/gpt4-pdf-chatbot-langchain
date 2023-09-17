@@ -50,10 +50,11 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
     If the user does not mention total return, the model you recommend should prioritize minimizing the Annual Total Return while meeting other conditions.
     If the user does not mention Expense ratio, the model you recommend should prioritize minimizing the NET EXPENSE RATIO while meeting other conditions.
 
-    The model must be listed with together with Risk tolerance,Annual Total Return,Annual Standard Deviation,NET EXPENSE RATIO. You should not list Model Image Url together with model.
 
     If there are multiple models in the combination, you must list respective proportions in each model, and how you caculate it.
-    If you find a suitable combination of models, please attach the corresponding asset allocation image in markdown format at the end of your answer. 
+   
+    The model must be listed with together with Risk tolerance,Annual Total Return,Annual Standard Deviation,NET EXPENSE RATIO. Do not list "Model Image Url" together with model.
+    Instead, if you find a suitable combination of models, please attach the corresponding asset allocation image in markdown format at the end of your answer. 
     If there are multiple models, please attach asset allocation images in markdown format.
 
     example of asset allocation image：

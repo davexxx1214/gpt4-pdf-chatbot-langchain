@@ -6,6 +6,8 @@ import { makeChain } from '@/utils/makechain';
 import { pinecone } from '@/utils/pinecone-client';
 import { PINECONE_INDEX_NAME, PINECONE_NAME_SPACE } from '@/config/pinecone';
 
+const threhold :number = parseFloat(process.env.LLM_THRESHOLD!) || 0.8;
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -26,7 +28,7 @@ export default async function handler(
   }
   // OpenAI recommends replacing newlines with spaces for best results
   const search_tip = ",recommend one or several combinations of models, you can find the answer in All Avalible Modes.";
-  const sanitizedQuestion = question.trim().replaceAll('\n', ' ') + search_tip;
+  var sanitizedQuestion = question.trim().replaceAll('\n', ' ') ;
 
   try {
     const index = pinecone.Index(PINECONE_INDEX_NAME);
@@ -40,6 +42,17 @@ export default async function handler(
         namespace: PINECONE_NAME_SPACE, //namespace comes from your config folder
       },
     );
+
+    const docs = await vectorStore.similaritySearchWithScore(sanitizedQuestion,1);
+    const scores: number = docs[0][1];
+
+    var prompt:string = process.env['PROMPT_NOT_REACH_THRESHOLD'] || 'You are an intelligent robo-advisor. Answer the final question:';
+
+    console.log(scores); // 输出第一个元素中的 number 属性 
+      if(scores > threhold){
+        sanitizedQuestion = sanitizedQuestion + search_tip;
+        prompt = process.env['PROMPT_EXCEED_THRESHOLD'] || 'You are an intelligent robo-advisor. Answer the final question:';
+      }
 
     //create chain
     const chain = makeChain(vectorStore);
@@ -57,6 +70,8 @@ export default async function handler(
       question: sanitizedQuestion,
       chat_history: pastMessages
     });
+
+    console.log("sanitizedQuestion :" + sanitizedQuestion);
 
     console.log('response', response);
     res.status(200).json(response);

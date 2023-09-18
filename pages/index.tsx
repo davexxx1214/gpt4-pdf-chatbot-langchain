@@ -28,7 +28,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: 'I can recommend the most suitable model for you based on several dimensions: Risk tolerance (Conservative/Balanced/Moderate/Growth/Aggressive), Investment goal (Preserve capital/Grow portfolio/Generate income), total return, Standard Deviation, and EXPENSE RATIO.',
+        message: 'I can recommend the most suitable model for you based on several dimensions: Risk tolerance (Conservative/Balanced/Moderate/Growth/Aggressive), Investment goal (Preserve capital/Grow portfolio/Generate income), Investment vehiclese(Mutual Fund/ ETF/Mutual Fund & ETF), total return, and expense ratio.',
         type: 'apiMessage',
       },
     ],
@@ -250,7 +250,7 @@ export default function Home() {
                     placeholder={
                       loading
                         ? 'Waiting for response...'
-                        : 'What is this legal case about?'
+                        : 'How can I assist you today?'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}

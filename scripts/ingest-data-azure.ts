@@ -21,7 +21,7 @@ import * as path from "node:path";
 // } from "langchain/document_loaders/fs/json";
 import { TextLoader } from "langchain/document_loaders/fs/text";
 import { DocxLoader } from "langchain/document_loaders/fs/docx";
-// import { CSVLoader } from "langchain/document_loaders/fs/csv";
+import { CSVLoader } from "langchain/document_loaders/fs/csv";
 // import { UnstructuredHTMLLoader } from "langchain/document_loaders/fs/html";
 
 
@@ -60,7 +60,7 @@ export const run = async (cleanDB: boolean, summarize: boolean) => {
         '.pdf': (path) => new PDFLoader(path),
         '.docx': (path) => new DocxLoader(path),
         '.txt': (path) => new TextLoader(path),
-        // '.csv': (path) => new CSVLoader(path, "text")
+        '.csv': (path) => new CSVLoader(path)
         // '.html': (path) => new UnstructuredHTMLLoader(path),
       });
       const rawDocs = await directoryLoader.load();

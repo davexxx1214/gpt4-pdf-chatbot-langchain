@@ -71,7 +71,7 @@ export const run = async (cleanDB: boolean, summarize: boolean) => {
       throw new Error(`Failed to download file from Azure Blob Storage container ${container}: ${e}`);
     } finally {
       console.log('removing tmp files from : ', tempDir);
-      fs.rmSync(path.dirname(tempDir), { recursive: true, force: true });
+      fs.rmSync(path.dirname(tempDir), { recursive: false, force: true });
     }
 
   } catch (error) {

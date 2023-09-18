@@ -34,6 +34,11 @@ const handler = async (
     
     await run(true, false);
 
+    res.status(200).json({
+      data: null,
+      error: null,
+    });
+
   } catch (e) {
       console.error(e);
       res.status(500).json({ data: null, error: "Internal Server Error" });

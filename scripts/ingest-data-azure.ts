@@ -65,7 +65,7 @@ export const run = async (cleanDB: boolean, summarize: boolean) => {
       });
       const rawDocs = await directoryLoader.load();
   
-      processDocs(rawDocs, cleanDB, summarize);
+      await processDocs(rawDocs, cleanDB, summarize);
 
     } catch (e) {
       throw new Error(`Failed to download file from Azure Blob Storage container ${container}: ${e}`);

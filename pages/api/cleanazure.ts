@@ -31,18 +31,22 @@ const handler = async (
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
+
+    debugger
     
     await run(true, false);
 
+    let url = 'sucess';
     res.status(200).json({
-      data: null,
+      data: {
+        url,
+      },
       error: null,
     });
 
   } catch (e) {
       console.error(e);
-      res.status(500).json({ data: null, error: "Internal Server Error" });
-    
+      res.status(500).json({ data: null, error: "Internal Server Error" });   
   }
 };
 

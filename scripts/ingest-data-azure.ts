@@ -15,14 +15,10 @@ import { BlobServiceClient } from "@azure/storage-blob";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-// import {
-//   JSONLoader,
-//   JSONLinesLoader,
-// } from "langchain/document_loaders/fs/json";
+
 import { TextLoader } from "langchain/document_loaders/fs/text";
 import { DocxLoader } from "langchain/document_loaders/fs/docx";
 import { CSVLoader } from "langchain/document_loaders/fs/csv";
-// import { UnstructuredHTMLLoader } from "langchain/document_loaders/fs/html";
 
 
 /* Name of directory to retrieve your files from 
@@ -151,7 +147,7 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
   }
 }
 
-(async () => {
-  await run(true, false);
-  console.log('ingestion complete');
-})();
+// (async () => {
+//   await run(true, false);
+//   console.log('ingestion complete');
+// })();

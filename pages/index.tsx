@@ -193,12 +193,13 @@ export default function Home() {
                   return (
                     <>
                       <div key={`chatMessage-${index}`} className={className}>
-                        {icon}
+                        {message.type === 'apiMessage' ? icon : null}
                         <div className={styles.markdownanswer}>
                           <ReactMarkdown linkTarget="_blank">
                             {message.message}
                           </ReactMarkdown>
                         </div>
+                        {message.type === 'apiMessage' ? null : icon}
                       </div>
                       {message.sourceDocs && (
                         <div

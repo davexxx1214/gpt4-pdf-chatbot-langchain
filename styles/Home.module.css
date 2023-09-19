@@ -143,11 +143,19 @@
   }
 }
 
-.apimessage,
-.usermessage,
-.usermessagewaiting {
+.apimessage{
   display: flex;
 }
+
+.usermessagewaiting,
+.usermessage{
+  justify-content: right;
+  align-items: right;
+  position: relative;
+  padding: 1rem 1rem 1rem 1rem;
+  display: flex;
+}
+
 
 .markdownanswer {
   line-height: 1.75;
@@ -173,9 +181,14 @@
   margin: 1rem;
 }
 
-.boticon,
-.usericon {
+.boticon {
   margin-right: 1rem;
+  border-radius: 0.1rem;
+  height: 100%;
+}
+
+.usericon {
+  margin-left: 1rem;
   border-radius: 0.1rem;
   height: 100%;
 }

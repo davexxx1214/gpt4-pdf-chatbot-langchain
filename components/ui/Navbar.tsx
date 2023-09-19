@@ -5,6 +5,7 @@ import NavItem from "./NavItem";
 
 const MENU_LIST = [
     { text: "Home", href: "/" },
+    { text: "Chat", href: "/chat" },
     { text: "Upload", href: "/upload" },
     { text: "Azure", href: "/azure" },
     { text: "Dashboard", href: "/dashboard" },

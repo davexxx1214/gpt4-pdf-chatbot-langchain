@@ -1,0 +1,23 @@
+Asset Class/ Investment,Ticker,Net Expense Ratio,Morningstar Category,Previous Allocation*,Change,Current
+,,,,Allocation*,,(as of 07/06/2023)
+U.S. Equity,,,,,,68.60%
+JPMorgan BetaBuilders US Equity ETF,BBUS,0.02%,Large Blend,43.30%,-2.40%,40.90%
+JPMorgan Active Value ETF,JAVA,0.44%,Large Value,0.00%,8.70%,8.70%
+Added,,,,,,
+JPMorgan Active Growth ETF,JGRO,0.44%,Large Growth,0.00%,8.70%,8.70%
+Added,,,,,,
+JPMorgan BetaBuilders US Mid Cap Eq ETF,BBMC,0.07%,Mid-Cap Blend,6.90%,,6.90%
+JPMorgan BetaBuilders US Sml Cp Eq ETF,BBSC,0.09%,Small Blend,3.40%,,3.40%
+JPMorgan US Value Factor ETF,JVAL,-,Large Value,5.00%,-5.00%,0.00%
+Removed,,,,,,
+JPMorgan US Momentum Factor ETF,JMOM,-,Large Growth,5.00%,-5.00%,0.00%
+Removed,,,,,,
+JPMorgan US Quality Factor ETF,JQUA,-,Large Blend,5.00%,-5.00%,0.00%
+Removed,,,,,,
+Developed Markets Equity,,,,,,24.50%
+JPMorgan BetaBuilders Intl Eq ETF,BBIN,0.07%,Foreign Large Blend,24.50%,,24.50%
+Emerging Markets Equity,,,,,,4.90%
+JPMorgan ActiveBuilders EM Eq ETF,JEMA,0.33%,Diversified Emerging Mkts,4.90%,,4.90%
+Cash,,,,,,2.00%
+JPMorgan US Government MMkt Instl,IJGXX,0.21%,Money Market-Taxable,2.00%,,2.00%
+TOTAL NET EXPENSE RATIO,,0.13%,,,,

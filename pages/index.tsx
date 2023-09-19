@@ -6,11 +6,10 @@ export default function Home() {
 
     <>
       <Layout>
-
         <img
           src="/backgroud1.png" alt="AILogo"
         />
-        <div className="absolute w-400 h-full top-0 bottom-0 left-10 right-0 flex items-center justify-left">
+        <div className="absolute w-full h-full top-0 bottom-0 left-10 right-0 flex items-center justify-left">
           <div className="flex flex-col items-left">
             <span className="text-white text-3xl break-words">Leverage our management experience</span>
             <span className="text-white text-3xl break-words">Enhance your investing experience</span>

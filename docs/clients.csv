@@ -1,0 +1,11 @@
+Client Name,Investment goal,Risk tolerance,Investment vehiclese,Annual Total Return,Annual Standard Deviation,NET EXPENSE RATIO
+User111,Preserve capital,Conservative,Mutual Fund,2.88%,4.52%,0.91%
+User222,Preserve capital,Conservative,ETF,2.02%,9.74%,0.25%
+User333,Grow portfolio,Balanced,ETF,5.19%,12.29%,0.25%
+User444,Grow portfolio,Balanced,Mutual Fund & ETF,5.06%,12.21%,0.40%
+User555,Generate income,Moderate,ETF,7.69%,13.60%,0.38%
+User666,Generate income,Moderate,Mutual Fund & ETF,7.04%,13.43%,0.56%
+User777,Generate income,Growth,Mutual Fund & ETF,8.54%,15.50%,0.24%
+User888,Grow portfolio,Growth,ETF,9.97%,16.49%,0.24%
+User999,Grow portfolio,Aggressive,ETF,11.80%,19.61%,0.23%
+User000,Grow portfolio,Aggressive,Mutual Fund & ETF,11.24%,19.30%,0.76%

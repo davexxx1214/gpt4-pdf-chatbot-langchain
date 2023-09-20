@@ -39,6 +39,13 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
     1. Risk tolerance:
     You need to identify the user's risk tolerance and classify it into one of the following five categories,The five categories are arranged from low to high as follows: 'Conservative','Balance','Moderate','Growth','Aggressive'
     'Conservative'< 'Balance' < 'Moderate' < 'Growth' < 'Aggressive'
+    If the user does not mention their risk tolerance, you should determine their risk tolerance based on the required total return:
+    if required total return <= 4%, risk tolerance is 'Conservative'
+    if 4% < required total return <= 7%, risk tolerance is 'Balance'
+    if 7% < required total return <= 9%, risk tolerance is 'Moderate' 
+    if 9% < required total return <= 12%, risk tolerance is 'Growth'
+    if required total return > 12%, risk tolerance is 'Aggressive'
+
     The recommend models you recommend must meet the user's risk tolerance exactly.
     You cannot recommend models with risk tolerance that exceed the user's risk tolerance.
 

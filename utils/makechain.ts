@@ -39,7 +39,7 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
     1. Risk tolerance:
     You need to identify the user's risk tolerance and classify it into one of the following five categories,The five categories are arranged from low to high as follows: 'Conservative','Balance','Moderate','Growth','Aggressive'
     'Conservative'< 'Balance' < 'Moderate' < 'Growth' < 'Aggressive'
-    If the user does not mention their risk tolerance, you should determine their risk tolerance based on the required total return:
+    If the user does not mention their risk tolerance, you must determine their risk tolerance based on their required total return:
     if required total return <= 4%, risk tolerance is 'Conservative'
     if 4% < required total return <= 7%, risk tolerance is 'Balance'
     if 7% < required total return <= 9%, risk tolerance is 'Moderate' 

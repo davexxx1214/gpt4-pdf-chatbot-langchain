@@ -47,28 +47,32 @@ export default function Azure() {
     return (
         <>
             <Layout>
-                <div className="mx-auto flex flex-col gap-4">
-                    <main className="py-10">
-                        <div className="w-full max-w-3xl px-3 mx-auto">
-                            <div className="space-y-10">
-                                <div>
-                                    <button
-                                        disabled={uploading}
-                                        onClick={onProcess}
-                                        className="w-1/2 px-4 py-3 text-sm font-medium transition-colors duration-300 text-blue-600 bg-white rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
-                                    >
-                                        Sync from Azure storage container
-                                    </button>
+                <img src="/azure.png" alt="Azure" />
 
+                <div className="absolute w-full h-full top-40 bottom-0 left-10 right-0 flex items-center justify-left">
+                    <div className="mx-auto flex flex-col gap-4">
+                        <main className="py-10">
+                            <div className="w-full max-w-3xl px-3 mx-auto">
+                                <div className="space-y-10">
+                                    <div>
+                                        <button
+                                            disabled={uploading}
+                                            onClick={onProcess}
+                                            className="w-1/2 px-4 py-3 text-sm font-medium transition-colors duration-300 text-blue-600 bg-white rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
+                                        >
+                                            Sync from Azure storage container
+                                        </button>
+
+                                    </div>
                                 </div>
                             </div>
+                        </main>
+                        <div className="w-full max-w-3xl px-3 mx-auto">
+                            {uploading ?
+                                <strong className="text-sm font-medium">Syncing ... </strong> :
+                                <strong className="text-sm font-medium"> </strong>
+                            }
                         </div>
-                    </main>
-                    <div className="w-full max-w-3xl px-3 mx-auto">
-                        {uploading ?
-                            <strong className="text-sm font-medium">Syncing ... </strong> :
-                            <strong className="text-sm font-medium"> </strong>
-                        }
                     </div>
                 </div>
                 <ToastContainer />

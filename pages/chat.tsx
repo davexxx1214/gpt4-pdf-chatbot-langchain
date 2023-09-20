@@ -28,7 +28,7 @@ export default function Chat() {
   }>({
     messages: [
       {
-        message: 'I can recommend the most suitable model for you based on several dimensions: Risk tolerance (Conservative/Balanced/Moderate/Growth/Aggressive), Investment goal (Preserve capital/Grow portfolio/Generate income), Investment vehiclese(Mutual Fund/ ETF/Mutual Fund & ETF), total return, and expense ratio.',
+        message: 'I can recommend the most suitable model for you based on several dimensions: Risk tolerance (Conservative/Balanced/Moderate/Growth/Aggressive), Investment goal (Preserve capital/Grow portfolio/Generate income), Investment vehiclese(Mutual Fund/ ETF/Mutual Fund & ETF), required total return, and expense ratio.',
         type: 'apiMessage',
       },
     ],
@@ -163,10 +163,10 @@ export default function Chat() {
                     icon = (
                       <Image
                         key={index}
-                        src="/bot-image.jpg"
+                        src="/panda.png"
                         alt="AI"
-                        width="30"
-                        height="30"
+                        width="40"
+                        height="40"
                         className={styles.boticon}
                         priority
                       />

@@ -6,11 +6,10 @@ const Dashboard = () => {
     <>
       <Layout>
         <div className="center">
-          <iframe src="http://20.189.79.55:3000/d-solo/cd352c5e-6801-481c-82e0-b5f5275b4205/ss-absolute-return-model?orgId=1&from=1695094889520&to=1695116489520&theme=light&panelId=1"  width="100%" height="100%"></iframe>
+          <iframe src="http://20.189.79.55:3000/d/f417d4a7-4d6f-4aaa-afcd-56afc0e4ae99/ss-overall-models?orgId=1&from=1695180484703&to=1695202084703"  width="100%" height="800px"></iframe>
         </div>
       </Layout>
     </>
-
   );
 };
 export default Dashboard;

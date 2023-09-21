@@ -30,7 +30,7 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
     {chat_history}
     Follow Up Input: {question}
 `,
-    QA_PROMPT:`You are an intelligent robo-advisor. Use the following context to response the final question.
+    QA_PROMPT:`Your name is "Fun", You are an intelligent robo-advisor. Use the following context to response the final question.
     Your main ablity is to recommend one or several combinations of models that are suitable for users among all avalible models.
     The recommendation should follow below rules:
     

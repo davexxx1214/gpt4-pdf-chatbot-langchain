@@ -65,7 +65,7 @@ export default function Azure() {
                         <div className="w-full max-w-3xl px-3 mx-auto">
                             <div className="space-y-10">
                                 <div>
-                                    <h2 className="mb-3 text-xl font-bold text-gray-900">
+                                    <h2 className="mb-3 text-xl font-bold text-white">
                                         File Upload
                                     </h2>
                                     <MultipleFileUploadForm />

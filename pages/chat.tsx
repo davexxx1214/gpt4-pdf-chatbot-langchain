@@ -145,7 +145,7 @@ export default function Chat() {
           <div className="mx-auto flex flex-row gap-10">
 
           <main className={styles.iframe}>
-            <iframe src="https://playcanv.as/p/2c2PJDU2/" height="300" width="200"> </iframe>
+            <iframe src="https://playcanv.as/p/2c2PJDU2/" height="300" width="180"> </iframe>
           </main>
           <main className={styles.main}>
             <div className={styles.cloud}>

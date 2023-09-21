@@ -135,23 +135,15 @@ export default function Chat() {
     }
   };
 
-  const handleChange = (e: { target: { checked: any; }; }) => {
-    const { checked } = e.target;
-    setCleanDB(checked);
-    globalThis._cleanDB = checked;
-    console.log("handleChange = " + globalThis._cleanDB);
-  }
-
   return (
-    
     <>
       <Layout>
-        <div className="mx-auto flex flex-col gap-4">
+        <div className="mx-auto flex flex-col gap-1">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Intelligent Robo-advisor
           </h1>
           <main className={styles.iframe}>
-            <iframe src="https://playcanv.as/p/2c2PJDU2/" height="60" width="60"> </iframe>
+            <iframe src="https://playcanv.as/p/2c2PJDU2/" height="70" width="70"> </iframe>
           </main>
           <main className={styles.main}>
             <div className={styles.cloud}>

@@ -7,7 +7,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <>
-      <div className="mx-auto flex flex-col space-y-1">
+      <div className="mx-auto flex flex-col space-y-0">
         <header className="container sticky top-0 z-40 bg-white">
           <Navbar />
         </header>

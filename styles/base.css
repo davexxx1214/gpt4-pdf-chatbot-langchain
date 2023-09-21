@@ -24,7 +24,8 @@ nav{
   padding: 16px;
   justify-content: space-between;
   align-items: center;
-  background-color: #f1f1f1;
+  background-color: #202f68;
+  opacity: 1.0;
 }
 .nav__menu-bar{
   display: flex;
@@ -49,7 +50,7 @@ nav{
   padding: 24px 16px;
   transition: all 0.2s;
   min-height: calc(100vh - 60px);
-  background-color: #f1f1f1;
+  background-color: #202f68;
 }
 .nav__menu-list.active{
   right: 0;
@@ -58,6 +59,7 @@ nav{
   font-size: 18px; 
   position: relative;
   transition: all 0.2s;
+  color: #CAF0F8;
 }
 
 .nav__link:hover{
@@ -86,10 +88,10 @@ nav{
     content: '';
     position: absolute;
     width: 0%;
-    height: 6px;
+    height: 4px;
     bottom: -16px;
     left: 0;
-    background-color: black;
+    background-color: #CAF0F8;
     transition: all 0.2s;
   }
   

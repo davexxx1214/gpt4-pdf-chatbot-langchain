@@ -131,7 +131,7 @@ const MultipleFileUploadForm = () => {
               </svg>
               {uploading ?
                 <strong className="text-sm font-medium">Uploading ... </strong> :
-                <strong className="text-sm font-medium">Select Your PDF/DOCX/TXT/CSV Files </strong>
+                <strong className="text-sm font-medium">Select Your Knowledge Files </strong>
               }
               <input
                 className="block w-0 h-0"

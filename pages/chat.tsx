@@ -138,12 +138,14 @@ export default function Chat() {
   return (
     <>
       <Layout>
-        <div className="mx-auto flex flex-col gap-1">
+        <div className="mx-auto flex flex-col gap-10">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             Intelligent Robo-advisor
           </h1>
+          <div className="mx-auto flex flex-row gap-10">
+
           <main className={styles.iframe}>
-            <iframe src="https://playcanv.as/p/2c2PJDU2/" height="70" width="70"> </iframe>
+            <iframe src="https://playcanv.as/p/2c2PJDU2/" height="300" width="200"> </iframe>
           </main>
           <main className={styles.main}>
             <div className={styles.cloud}>
@@ -278,6 +280,7 @@ export default function Chat() {
               </div>
             )}
           </main>
+          </div>
           </div>
         <footer className="m-auto p-4">
           <div>

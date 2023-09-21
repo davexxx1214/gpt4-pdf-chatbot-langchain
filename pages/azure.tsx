@@ -58,14 +58,14 @@ export default function Azure() {
         <>
             <Layout>
                 <img src="/azure.png" alt="Azure" />
-                <div className="absolute w-full h-500 top-40 bottom-0 left-10 right-0 flex items-center justify-left">
+                <div className="absolute w-full h-500 top-40 bottom-30 left-10 right-0 flex items-center justify-left">
 
                 <div className="mx-auto flex flex-col gap-4">
                     <main className="py-10">
                         <div className="w-full max-w-3xl px-3 mx-auto">
                             <div className="space-y-10">
                                 <div>
-                                    <h2 className="mb-3 text-xl font-bold text-white">
+                                    <h2 className="mb-3 text-xl font-bold text-black">
                                         File Upload
                                     </h2>
                                     <MultipleFileUploadForm />
@@ -77,7 +77,7 @@ export default function Azure() {
                 </div>
                 </div>
 
-                <div className="absolute w-full h-200 top-21 bottom-0 left-10 right-0 flex items-center justify-center">
+                <div className="absolute w-full h-200 top-21 bottom-10 left-10 right-0 flex items-center justify-center">
                     <div className="mx-auto flex flex-col gap-4">
                         <main className="py-10">
                             <div className="w-full max-w-3xl px-3 mx-auto">
@@ -85,9 +85,9 @@ export default function Azure() {
                                         <button
                                             disabled={uploading}
                                             onClick={onProcess}
-                                            className="w-1/2 px-4 py-3 text-sm font-medium transition-colors duration-300 text-blue-600 bg-white rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
+                                            className="w-1/2 px-4 py-3 text-xl font-bold transition-colors duration-300 text-white bg-blue-400  rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
                                         >
-                                            Sync from Azure storage container
+                                            Sync from Azure
                                         </button>
 
                                 </div>

@@ -7,7 +7,7 @@ const MENU_LIST = [
     { text: "Home", href: "/" },
     { text: "Chat", href: "/chat" },
     { text: "Data Manager", href: "/azure" },
-    { text: "Dashboard", href: "/dashboard" },
+    { text: "Insight", href: "/dashboard" },
 ];
 
 const Navbar = () => {

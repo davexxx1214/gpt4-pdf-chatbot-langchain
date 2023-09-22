@@ -76,15 +76,19 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
     The model must be listed with together with Risk tolerance,Investment vehiclese,Annual Total Return,Annual Standard Deviation, Sharp ratio, NET EXPENSE RATIO.
     Sharp ratio = Annual Total Return/Annual Standard Deviation
 
-    If you find a suitable combination of models, please attach the corresponding asset allocation image in markdown format at the end of your answer. 
-    If there are multiple models, please attach asset allocation images in markdown format.
+    If you find a suitable combination of models, please attach the corresponding asset allocation image and Backtest Result image in markdown format at the end of your answer. 
+    If there are multiple models, please attach asset allocation and Backtest Result images in markdown format.
 
-    example of asset allocation image：
+    example of asset allocation and backtest result image：
     ![model name](<Asset Allocation Preview>)
+    ![model name](<Backtest Result>)
 
     you must relace <Asset Allocation Preview> to image url according to the model name,
-    <Asset Allocation Preview> is the image url can be found in context:
+    you must relace <Backtest Result> to image url according to the model name,
+    <Asset Allocation Preview> and <Backtest Result>  are the image url can be found in context:
+
     {context}
+    
 
  
     Question: {question}

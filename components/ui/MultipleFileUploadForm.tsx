@@ -151,14 +151,14 @@ const MultipleFileUploadForm = () => {
               setPreviewUrls([]);
               setProcessFiles([]);
             }}
-            className="w-1/2 px-4 py-3 text-sm font-medium text-white transition-colors duration-300 bg-gray-700 rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
+            className="w-1/2 px-4 py-3 text-sm font-medium text-white transition-colors duration-300 bg-blue-500 rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
           >
             Cancel file
           </button>
           <button
             disabled={previewUrls.length == 0 || uploading}
             onClick={onProcess}
-            className="w-1/2 px-4 py-3 text-sm font-medium text-white transition-colors duration-300 bg-gray-700 rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
+            className="w-1/2 px-4 py-3 text-sm font-medium text-white transition-colors duration-300 bg-blue-500 rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
           >
             Upload file
           </button>

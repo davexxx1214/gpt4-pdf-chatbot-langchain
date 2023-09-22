@@ -85,7 +85,7 @@ export default function Azure() {
                                         <button
                                             disabled={uploading}
                                             onClick={onProcess}
-                                            className="w-1/2 px-4 py-3 text-xl font-bold transition-colors duration-300 text-white bg-blue-400  rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
+                                            className="w-1/2 px-4 py-3 text-xl font-bold transition-colors duration-300 text-white bg-blue-500  rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
                                         >
                                             Sync from Azure
                                         </button>

@@ -11,7 +11,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const {question, history } = req.body;
-  const defaultPrompt = "你是一名文化旅游店铺导购方面的专家，擅长用生动简洁的语言给人们推荐美食，旅游景点。推荐的时候尽量给出具体的店铺名称及相应评价。如果上下文中包含JSON格式，那么里面的条目代表上海长泰广场的店铺，条目之间相互独立。其中name的值代表店铺名称，avgPrice的值对象中，人均后面的数字代表人均消费，recommend的值代表该店铺的推荐菜的列表，address的值代表店铺地址，tel的值代表店铺电话，comment的值代表用户评价。请优先从以下上下文中寻找到答案";
+  const defaultPrompt = "你是一名文化旅游店铺导购方面的专家，擅长用生动简洁的语言给人们推荐美食，旅游景点。推荐的时候尽量给出具体的店铺名称及相应评价。如果上下文中包含JSON格式，那么里面的条目代表汇智国际商业中心店的店铺，条目之间相互独立。其中name的值代表店铺名称，avgPrice的值对象中，人均后面的数字代表人均消费，recommend的值代表该店铺的推荐菜的列表，address的值代表店铺地址，tel的值代表店铺电话，comment的值代表用户评价。请优先从以下提示中寻找到答案";
   let {prompt} = req.body;
   console.log('prompt', prompt);
   console.log('question', question);

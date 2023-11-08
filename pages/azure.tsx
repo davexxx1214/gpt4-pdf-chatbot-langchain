@@ -18,7 +18,7 @@ export default function Azure() {
     }
 
     const onProcess = async () => {
-        toast('Sync started.', { hideProgressBar: true, autoClose: 2000, type: 'success', position: 'top-center' });
+        toast('开始更新知识库.', { hideProgressBar: true, autoClose: 2000, type: 'success', position: 'top-center' });
 
         setUploading(true);
         /** Uploading files to the server */
@@ -43,7 +43,7 @@ export default function Azure() {
             }
 
             console.log("Files were uploaded successfylly:", data);
-            toast('Files were synced successfylly!', { hideProgressBar: true, autoClose: 2000, type: 'success', position: 'top-center' })
+            toast('知识库更新成功!', { hideProgressBar: true, autoClose: 2000, type: 'success', position: 'top-center' })
 
         } catch (error) {
             console.error(error);
@@ -66,7 +66,7 @@ export default function Azure() {
                             <div className="space-y-10">
                                 <div>
                                     <h2 className="mb-3 text-xl font-bold text-black">
-                                        File Upload
+                                        上传文件
                                     </h2>
                                     <MultipleFileUploadForm />
                                 </div>
@@ -87,7 +87,7 @@ export default function Azure() {
                                             onClick={onProcess}
                                             className="w-1/2 px-4 py-3 text-xl font-bold transition-colors duration-300 text-white bg-blue-500  rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
                                         >
-                                            Sync from Azure
+                                            从Azure空间同步数据
                                         </button>
 
                                 </div>
@@ -95,7 +95,7 @@ export default function Azure() {
                         </main>
                         <div className="w-full max-w-3xl px-3 mx-auto">
                             {uploading ?
-                                <strong className="text-sm font-medium">Syncing ... </strong> :
+                                <strong className="text-sm font-medium">同步中 ... </strong> :
                                 <strong className="text-sm font-medium"> </strong>
                             }
                         </div>

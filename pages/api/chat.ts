@@ -27,7 +27,7 @@ export default async function handler(
     return res.status(400).json({ message: 'No question in the request' });
   }
   // OpenAI recommends replacing newlines with spaces for best results
-  const search_tip = "(helpfull information can be found in All Avalible Models.)";
+  const search_tip = "(汇智国际商业中心店)";
   var sanitizedQuestion = question.trim().replaceAll('\n', ' ') ;
 
   try {

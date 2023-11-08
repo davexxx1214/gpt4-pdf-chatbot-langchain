@@ -10,17 +10,12 @@ const PROMPT: { [key: string]: { CONDENSE_PROMPT: string; QA_PROMPT: string; } }
     {chat_history}
     后续输入: {question}
     独立问题:`,
-    QA_PROMPT:`你是一名智能投顾。使用以下上下文来回答最后的问题。
-    你应该在所有已知道的模型中，推荐一个或者几个最适合客户的组合。
-    如果你找到了适合的模型组合，请在答案最后附加相应的图片，如果有多个模型，请附加多个图片
-
-    示例：
-    ![modl name](<Model Image Url>)
-    其中<Model Image Url>对应图片的地址
+    QA_PROMPT:`你的名字叫AR智能助手，擅长用生动简洁的语言给人们推荐美食，旅游景点。推荐的时候尽量给出具体的店铺名称及相应评价。如果上下文中包含JSON格式，那么里面的条目代表汇智国际商业中心店的店铺，条目之间相互独立。
+    其中name的值代表店铺名称，avgPrice的值对象中，人均后面的数字代表人均消费，recommend的值代表该店铺的推荐菜的列表，address的值代表店铺地址，tel的值代表店铺电话，comment的值代表用户评价。
+    请优先从以下提示中寻找到答案
     
     {context}
     
-    问题: {question}，you can find the answer in All Avalible Modes.
     markdown格式的有用答案:`
   },
   'en_us':{
@@ -108,7 +103,7 @@ export const makeChain = (vectorstore: PineconeStore) => {
 
   const chain = ConversationalRetrievalQAChain.fromLLM(
     model,
-    vectorstore.asRetriever(20),
+    vectorstore.asRetriever(3),
     {
       qaTemplate: QA_PROMPT,
       questionGeneratorTemplate: CONDENSE_PROMPT,

@@ -28,7 +28,7 @@ export default function Chat() {
   }>({
     messages: [
       {
-        message: 'I can recommend the most suitable model for you based on several dimensions: Risk tolerance (Conservative/Balanced/Moderate/Growth/Aggressive), Investment goal (Preserve capital/Grow portfolio/Generate income), Investment vehiclese(Mutual Fund/ ETF/Mutual Fund & ETF), required total return, and expense ratio.',
+        message: '请问有什么可以帮您的？',
         type: 'apiMessage',
       },
     ],
@@ -51,7 +51,7 @@ export default function Chat() {
     setError(null);
 
     if (!query) {
-      alert('Please input a question');
+      alert('请输入问题');
       return;
     }
 
@@ -140,7 +140,7 @@ export default function Chat() {
       <Layout>
         <div className="mx-auto flex flex-col gap-10">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Intelligent Robo-advisor
+            AR智能助手
           </h1>
           <div className="mx-auto flex flex-row gap-10">
 
@@ -244,8 +244,8 @@ export default function Chat() {
                     name="userInput"
                     placeholder={
                       loading
-                        ? 'Waiting for response...'
-                        : 'How can I assist you today?'
+                        ? '思考中...'
+                        : '请输入问题'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -284,7 +284,6 @@ export default function Chat() {
           </div>
         <footer className="m-auto p-4">
           <div>
-            Powered by Azure OpenAI
           </div>
         </footer>
       </Layout>

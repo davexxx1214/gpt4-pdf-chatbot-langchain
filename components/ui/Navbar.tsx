@@ -4,10 +4,9 @@ import React, { useState } from "react";
 import NavItem from "./NavItem";
 
 const MENU_LIST = [
-    { text: "Home", href: "/" },
-    { text: "Chat", href: "/chat" },
-    { text: "Data Manager", href: "/azure" },
-    { text: "Insight", href: "/dashboard" },
+    { text: "主页", href: "/" },
+    { text: "对话", href: "/chat" },
+    { text: "数据管理", href: "/azure" }
 ];
 
 const Navbar = () => {

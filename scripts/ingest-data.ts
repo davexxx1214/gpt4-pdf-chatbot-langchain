@@ -3,6 +3,7 @@ import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { pinecone } from '@/utils/pinecone-client';
 import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
+import { JSONLoader, JSONLinesLoader} from "langchain/document_loaders/fs/json";
 import { PINECONE_INDEX_NAME, PINECONE_NAME_SPACE } from '@/config/pinecone';
 import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
 
@@ -34,8 +35,7 @@ export const run = async (filePath: string, cleanDB: boolean, summarize: boolean
       '.pdf': (path) => new PDFLoader(path),
       '.docx': (path) => new DocxLoader(path),
       '.txt': (path) => new TextLoader(path),
-      // '.csv': (path) => new CSVLoader(path, "text")
-      // '.html': (path) => new UnstructuredHTMLLoader(path),
+      '.json': (path) => new JSONLoader(path),
     });
     const rawDocs = await directoryLoader.load();
 
@@ -55,7 +55,7 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
     console.log('summarize = ', summarize);
 
     const textSplitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 1000,
+      chunkSize: 600,
       chunkOverlap: 100,
     });
 
@@ -139,6 +139,6 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
 }
 
 (async () => {
-  await run(filePath, false, false);
+  await run(filePath, true, false);
   console.log('ingestion complete');
 })();

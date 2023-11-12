@@ -55,8 +55,8 @@ const processDocs = async (rawDocs: Document<Record<string, any>>[], cleanDB: bo
     console.log('summarize = ', summarize);
 
     const textSplitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 600,
-      chunkOverlap: 100,
+      chunkSize: 8000,
+      chunkOverlap: 0,
     });
 
     // console.log('rawDocs', rawDocs);

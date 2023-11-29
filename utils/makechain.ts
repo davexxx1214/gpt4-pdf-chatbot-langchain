@@ -45,7 +45,7 @@ const serializeDocs = (docs: Array<Document>): string =>
 export const makeChain = (vectorstore: PineconeStore, prompt: string) => {
   const model = new OpenAI({
     temperature: 0, // increase temepreature to get more creative answers
-    modelName: 'gpt-3.5-turbo-16k', //change this to gpt-4 if you have access
+    modelName: 'gpt-4-1106-preview', //change this to gpt-4 if you have access
   });
 
   const questionPrompt = PromptTemplate.fromTemplate(prompt + QA_PROMPT);

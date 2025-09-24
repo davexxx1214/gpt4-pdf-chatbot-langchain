@@ -1,102 +1,189 @@
-# GPT-4 & LangChain - Create a ChatGPT Chatbot for Your PDF Files
+# 智能投顾AI助手 - 基于GPT-4与LangChain的投资咨询平台
 
-Use the new GPT-4 api to build a chatGPT chatbot for multiple Large PDF files.
+基于GPT-4 API构建的智能投资顾问系统，提供专业的投资组合推荐和资产管理咨询服务。
 
-Tech stack used includes LangChain, Pinecone, Typescript, Openai, and Next.js. LangChain is a framework that makes it easier to build scalable AI/LLM apps and chatbots. Pinecone is a vectorstore for storing embeddings and your PDF in text to later retrieve similar docs.
+## 📸 系统界面预览
 
-[Tutorial video](https://www.youtube.com/watch?v=ih9PBGVVOO4)
+### 主页 - 系统概览
+![主页界面](./snapshot/snapshot1.png)
+*查看系统介绍和功能导航，提供清晰的入口引导*
 
-[Join the discord if you have questions](https://discord.gg/E4Mc77qwjm)
+### 数据管理页 - Azure云存储
+![数据管理页面](./snapshot/snapshot2.png)
+*支持文档上传和Azure云存储数据同步，构建专业投资知识库*
 
-The visual guide of this repo and tutorial is in the `visual guide` folder.
+### AI对话页 - 智能投顾助手
+![AI对话界面](./snapshot/snapshot3.png)
+*与智能投顾助手实时对话，获取专业的投资建议和组合推荐*
 
-**If you run into errors, please review the troubleshooting section further down this page.**
+## 🚀 核心功能
 
-Prelude: Please make sure you have already downloaded node on your system and the version is 18 or greater.
+### 📊 数据管理
+- **文档向量化**: 将投资相关的PDF文档（研究报告、产品介绍等）转换为向量并存储到Pinecone向量数据库
+- **知识库构建**: 构建专业的投资知识库，支持多种金融文档格式
+- **数据同步**: 支持Azure云存储数据同步，确保知识库实时更新
 
-## Development
+### 🤖 AI智能对话
+- **智能投顾**: 基于构建的知识库回答客户投资咨询问题
+- **投资组合推荐**: 根据客户需求推荐合适的投资模型和策略
+- **专业咨询**: 提供个性化的资产配置建议和风险评估
 
-1. Clone the repo or download the ZIP
+### 🎯 技术特色
+- **GPT-4驱动**: 采用最新GPT-4模型，提供专业准确的投资建议
+- **向量检索**: 基于语义相似性快速检索相关投资信息
+- **多模态支持**: 支持文档、图表等多种数据格式处理
 
+## 🛠 技术栈
+
+- **前端**: Next.js, TypeScript, React, Tailwind CSS
+- **后端**: LangChain, OpenAI GPT-4 API
+- **向量数据库**: Pinecone
+- **云存储**: Azure Storage
+- **部署**: Vercel/自托管
+
+## 📋 系统要求
+
+请确保您的系统已安装Node.js（版本18或更高）。
+
+## 🚀 快速开始
+
+### 1. 获取项目代码
+
+```bash
+git clone [项目地址]
+cd gpt4-pdf-chatbot-langchain-myss
 ```
-git clone [github https url]
+
+### 2. 安装依赖
+
+首先安装yarn包管理器（如果还未安装）：
+
+```bash
+npm install yarn -g
 ```
 
-2. Install packages
+然后安装项目依赖：
 
-First run `npm install yarn -g` to install yarn globally (if you haven't already).
-
-Then run:
-
-```
+```bash
 yarn install
 ```
 
-After installation, you should now see a `node_modules` folder.
+安装完成后，您将看到 `node_modules` 文件夹。
 
-3. Set up your `.env` file
+### 3. 环境配置
 
-- Copy `.env.example` into `.env`
-  Your `.env` file should look like this:
+创建 `.env` 文件并配置以下变量：
 
+```env
+# OpenAI API配置
+OPENAI_API_KEY=your_openai_api_key
+
+# Pinecone向量数据库配置
+PINECONE_API_KEY=your_pinecone_api_key
+PINECONE_ENVIRONMENT=your_pinecone_environment
+PINECONE_INDEX_NAME=your_index_name
+
+# Azure存储配置（可选）
+AZURE_STORAGE_CONNECTION_STRING=your_azure_connection
 ```
-OPENAI_API_KEY=
 
-PINECONE_API_KEY=
-PINECONE_ENVIRONMENT=
+**获取API密钥：**
+- [OpenAI API密钥](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key)
+- [Pinecone](https://pinecone.io/) - 创建账户并获取API密钥、环境和索引名称
 
-PINECONE_INDEX_NAME=
+### 4. 系统配置
 
+- 在 `config` 文件夹中，修改 `PINECONE_NAME_SPACE` 为您希望存储向量嵌入的命名空间
+- 在 `utils/makechain.ts` 中根据您的用例修改 `QA_PROMPT`
+- 确保您有GPT-4 API访问权限（如果使用GPT-4模型）
+
+## 📚 知识库构建
+
+### 方法一：本地文档上传
+
+1. 在项目根目录创建 `docs` 文件夹
+2. 将您的PDF投资文档放入该文件夹
+3. 运行向量化脚本：
+
+```bash
+npm run ingest
 ```
 
-- Visit [openai](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key) to retrieve API keys and insert into your `.env` file.
-- Visit [pinecone](https://pinecone.io/) to create and retrieve your API keys, and also retrieve your environment and index name from the dashboard.
+4. 在Pinecone控制台验证向量数据已成功添加
 
-4. In the `config` folder, replace the `PINECONE_NAME_SPACE` with a `namespace` where you'd like to store your embeddings on Pinecone when you run `npm run ingest`. This namespace will later be used for queries and retrieval.
+### 方法二：Web界面管理
 
-5. In `utils/makechain.ts` chain change the `QA_PROMPT` for your own usecase. Change `modelName` in `new OpenAI` to `gpt-4`, if you have access to `gpt-4` api. Please verify outside this repo that you have access to `gpt-4` api, otherwise the application will not work.
+1. 启动应用后访问数据管理页面
+2. 通过Web界面上传投资相关文档
+3. 支持从Azure云存储同步数据
+4. 系统自动完成文档向量化处理
 
-## Convert your PDF files to embeddings
+## 🖥 运行应用
 
-**This repo can load multiple PDF files**
+确认向量数据已成功添加到Pinecone后，启动开发服务器：
 
-1. Inside `docs` folder, add your pdf files or folders that contain pdf files.
+```bash
+npm run dev
+```
 
-2. Run the script `npm run ingest` to 'ingest' and embed your docs. If you run into errors troubleshoot below.
+访问 `http://localhost:3000` 即可开始使用：
 
-3. Check Pinecone dashboard to verify your namespace and vectors have been added.
+- **主页** ([查看截图](#主页---系统概览)): 查看系统介绍和功能导航
+- **AI对话** ([查看截图](#ai对话页---智能投顾助手)): 与智能投顾助手进行投资咨询
+- **数据管理** ([查看截图](#数据管理页---azure云存储)): 上传和管理投资知识库文档
 
-## Run the app
+## 🔧 故障排除
 
-Once you've verified that the embeddings and content have been successfully added to your Pinecone, you can run the app `npm run dev` to launch the local dev environment, and then type a question in the chat interface.
+### 常见问题
 
-## Troubleshooting
+**环境相关**
+- 确保Node.js版本为18或更高版本：`node -v`
+- 检查所有环境变量是否正确配置在 `.env` 文件中
+- 确保OpenAI账户有足够的API调用额度
+- 验证您有GPT-4 API访问权限
 
-In general, keep an eye out in the `issues` and `discussions` section of this repo for solutions.
+**文档处理问题**
+- 尝试使用不同的PDF文件进行测试
+- 确保PDF文件不是扫描版本或损坏文件
+- 如果是扫描版PDF，需要先进行OCR文字识别转换
 
-**General errors**
+**向量数据库问题**
+- 确认Pinecone控制台中的环境和索引名称与配置文件匹配
+- 检查向量维度设置为 `1536`
+- 确保Pinecone命名空间使用小写字母
+- 免费计划的索引会在7天不活跃后删除，注意定期访问
 
-- Make sure you're running the latest Node version. Run `node -v`
-- Try a different PDF or convert your PDF to text first. It's possible your PDF is corrupted, scanned, or requires OCR to convert to text.
-- `Console.log` the `env` variables and make sure they are exposed.
-- Make sure you're using the same versions of LangChain and Pinecone as this repo.
-- Check that you've created an `.env` file that contains your valid (and working) API keys, environment and index name.
-- If you change `modelName` in `OpenAI`, make sure you have access to the api for the appropriate model.
-- Make sure you have enough OpenAI credits and a valid card on your billings account.
-- Check that you don't have multiple OPENAPI keys in your global environment. If you do, the local `env` file from the project will be overwritten by systems `env` variable.
-- Try to hard code your API keys into the `process.env` variables if there are still issues.
+**API连接问题**
+- 检查网络连接和防火墙设置
+- 验证API密钥的有效性
+- 确保没有多个OpenAI密钥环境变量冲突
 
-**Pinecone errors**
+### 重置方案
 
-- Make sure your pinecone dashboard `environment` and `index` matches the one in the `pinecone.ts` and `.env` files.
-- Check that you've set the vector dimensions to `1536`.
-- Make sure your pinecone namespace is in lowercase.
-- Pinecone indexes of users on the Starter(free) plan are deleted after 7 days of inactivity. To prevent this, send an API request to Pinecone to reset the counter before 7 days.
-- Retry from scratch with a new Pinecone project, index, and cloned repo.
+如果遇到持续问题，可以尝试：
+1. 重新创建Pinecone项目和索引
+2. 重新克隆项目代码
+3. 清除并重新安装依赖包
+4. 重新配置环境变量
 
-## Credit
+## 💡 应用场景
 
-Frontend of this repo is inspired by [langchain-chat-nextjs](https://github.com/zahidkhawaja/langchain-chat-nextjs)
+本系统特别适用于：
 
-##reference:
-JPM [JPM](https://am.jpmorgan.com/us/en/asset-management/adv/investment-strategies/model-portfolios/explore-model-portfolios/)
+- **财富管理机构**: 为客户提供专业的投资咨询服务
+- **投资顾问**: 快速获取投资组合推荐和市场分析
+- **金融机构**: 构建内部知识库，提升服务效率
+- **个人投资者**: 获得专业的投资建议和风险评估
+
+## 🤝 技术支持
+
+- 前端界面设计灵感来自 [langchain-chat-nextjs](https://github.com/zahidkhawaja/langchain-chat-nextjs)
+- 投资模型参考 [摩根大通资产管理](https://am.jpmorgan.com/us/en/asset-management/adv/investment-strategies/model-portfolios/explore-model-portfolios/)
+
+## 📄 许可证
+
+本项目遵循 MIT 许可证。
+
+---
+
+*打造智能投顾新体验，让投资决策更专业、更高效！*
